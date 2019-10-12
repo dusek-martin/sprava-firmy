@@ -291,6 +291,16 @@ public class DatabaseOfEmployees {
 			}
 		}
 	}
+	
+	public String listOfEmployeesByIdToString() {
+		Collections.sort(employees, Employee.idComparator);
+		String s="";
+		for (Employee z : employees) {
+			s+=z;
+			s+="\n";
+		}
+		return s;
+	}
 
 // ostatní fce
 	public boolean deleteEmployee(int id) {

@@ -1,3 +1,4 @@
+/*
 package viewFX;
 
 
@@ -8,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class FxMainWindow extends Application {
-
+/*
 	@Override
 	public void start(Stage stage) throws Exception {
 /*
@@ -30,10 +31,11 @@ public class FxMainWindow extends Application {
 *//*
 		stage.setScene(scene);
 		stage.show();
-*/
+
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 }
+ */	

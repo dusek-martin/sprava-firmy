@@ -7,7 +7,7 @@ public class SwingMainWindow {
 	public static void main(String[] args) {
 		try {
 			Gui frame = new Gui("Hlavní okno");
-			frame.setSize(300, 200);
+			frame.setSize(800, 400);
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocationRelativeTo(null);

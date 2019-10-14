@@ -1,0 +1,24 @@
+Předpokládejme technicky orientovanou firmu, jejíž zaměstnanci jsou na 4 různých pozicích. Každý zaměstnanec má přidělené identifikační číslo, umí vykonávat specifickou činnost odpovídající dané profesi a je placen podle aktuálního vytížení dle tarifní mzdy náležícího dané pozici. 
+    A) Asistent: administrativní činnost s tarifem 150Kč/h.
+    B) Technický pracovník: administrativní činnost a příprava technické dokumentace s tarifem 200Kč/h.
+    C) Vývojový pracovník: příprava technické dokumentace a vývojové práce s tarifem 250Kč/h.
+    D) Ředitel: administrativní práce, příprava technické dokumentace a vývojové práce s tarifem 350Kč/h. Přičemž ředitel je v celé firmě pouze jeden.
+
+Každý zaměstnanec může onemocnět a do doby jeho uzdravení je nutné, aby jeho práci převzal jiný zaměstnanec/zaměstnanci (pokud je to možné). V případě, že zaměstnanec nevykonává žádnou činnost, je jeho mzda 500/měsíc.
+Vytvořte v programovacím jazyce JAVA ve vývojovém prostředí Eclipse databázový program, který umožní uživateli následující:
+    A) Přidávat nové zaměstnance do firmy - uživatel si vždy pouze vybere pozici zaměstnance, kterého chce přidat a zadá jeho jméno, příjmení a identifikační číslo.
+    B) Zadávání práce - uživatel si pouze vybere, jakou požadovanou činnost (administrativa/technická dokumentace/vývoj) a v jaké časové kapacitě (počet hodin/měsíc), tj. součástí řešení bude efektivní rozdělení práce mezi zaměstnance s ohledem na minimální mzdovou náročnost. Činnost může být rozdělena mezi několik zaměstnanců (i na různých pozicích).
+    C) Rušení práce -  uživatel si pouze vybere, jakou činnost chce snížit a o kolik hodin (hodin/měsíc), součástí řešení bude opět mzdově efektivní snížení práce.
+    D) Propuštění zaměstnance – uživatel zadá identifikační číslo zaměstnance, který má být propuštěn a ten bude z databáze smazán, přičemž veškeré činnosti, které tento zaměstnanec prováděl, budou efektivně rozděleny mezi zbývající zaměstnance (pokud je to možné, pokud ne, bude o tom uživatel informován)
+    E) Onemocnění zaměstnance – uživatel zadá identifikační číslo zaměstnance, který onemocněl. Veškeré činnosti tohoto zaměstnance budou efektivně rozděleny mezi zbývající zaměstnance (pokud je to možné, pokud ne, bude o tom uživatel informován). Tomuto zaměstnanci nebude možné zadávat žádnou práci až do jeho uzdravení.
+    F) Uzdravení zaměstnance - uživatel zadá identifikační číslo nemocného zaměstnance, který se uzdravil. Od této doby mu lze přidělovat práci. (Po uzdravení zaměstnance není třeba řešit přerozdělení aktuálních prací).
+    G) Nastavení maximálního možného úvazku pro všechny zaměstnance (hodin/měsíc).
+    H) Výpis počtu zaměstnanců na jednotlivých pozicích a jejich aktuálně volné úvazky.
+    I) Výpis celkových finančních prostředků aktuálně vynakládaných za jeden měsíc.
+    J) Výpis všech zaměstnanců (identifikační číslo, jméno, příjmení, pozice, aktuálně vykonávané činnosti s počtem hodin). Výpis bude řazen buď podle ID nebo podle příjmení zaměstnanců (volba uživatele). 
+    k) Uložení celé databáze do souboru
+    l) Načtení celé databáze ze souboru
+
+POZN:
+1. Celá aplikace je zjednodušená tak, že zadávání je na "tento konkrétní měsíc". Tzn. představit si, že šéf přidává práci v průběhu měsíce aby věděl, kolik kapacit má tento měsíc volných. Nic víc. Neodčítá se žádná "odpracovaná práce" ani nic podobného. Je to jen soupis práce = hodin, které mají jeho zaměstnanci přiděleny. Následující měsíc se to jakoby "resetuje" (to v programu neřešit, popř. udělat metodu "Clear" kdy se vymaže veškerá práce) a šéf opět zadává hodiny.
+2. co se týče bodu b), tam je to myšleno tak, že i když má zaměstnanec maximálně hodin 160, tak já můžu zadat 1000 hodin administrativní práce. Těch 1000 hodin se musí efektivně rozdělit s ohledem na mzdovou náročnost, která pozice ji může vykonávat a taky tak, že maximálně může mít zaměstnanec 160.

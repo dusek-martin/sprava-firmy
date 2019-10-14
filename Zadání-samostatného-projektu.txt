@@ -1,0 +1,24 @@
+Pøedpokládejme technicky orientovanou firmu, jejíž zamìstnanci jsou na 4 rùzných pozicích. Každý zamìstnanec má pøidìlené identifikaèní èíslo, umí vykonávat specifickou èinnost odpovídající dané profesi a je placen podle aktuálního vytížení dle tarifní mzdy náležícího dané pozici. 
+    A) Asistent: administrativní èinnost s tarifem 150Kè/h.
+    B) Technický pracovník: administrativní èinnost a pøíprava technické dokumentace s tarifem 200Kè/h.
+    C) Vývojový pracovník: pøíprava technické dokumentace a vývojové práce s tarifem 250Kè/h.
+    D) Øeditel: administrativní práce, pøíprava technické dokumentace a vývojové práce s tarifem 350Kè/h. Pøièemž øeditel je v celé firmì pouze jeden.
+
+Každý zamìstnanec mùže onemocnìt a do doby jeho uzdravení je nutné, aby jeho práci pøevzal jiný zamìstnanec/zamìstnanci (pokud je to možné). V pøípadì, že zamìstnanec nevykonává žádnou èinnost, je jeho mzda 500/mìsíc.
+Vytvoøte v programovacím jazyce JAVA ve vývojovém prostøedí Eclipse databázový program, který umožní uživateli následující:
+    A) Pøidávat nové zamìstnance do firmy - uživatel si vždy pouze vybere pozici zamìstnance, kterého chce pøidat a zadá jeho jméno, pøíjmení a identifikaèní èíslo.
+    B) Zadávání práce - uživatel si pouze vybere, jakou požadovanou èinnost (administrativa/technická dokumentace/vývoj) a v jaké èasové kapacitì (poèet hodin/mìsíc), tj. souèástí øešení bude efektivní rozdìlení práce mezi zamìstnance s ohledem na minimální mzdovou nároènost. Èinnost mùže být rozdìlena mezi nìkolik zamìstnancù (i na rùzných pozicích).
+    C) Rušení práce -  uživatel si pouze vybere, jakou èinnost chce snížit a o kolik hodin (hodin/mìsíc), souèástí øešení bude opìt mzdovì efektivní snížení práce.
+    D) Propuštìní zamìstnance – uživatel zadá identifikaèní èíslo zamìstnance, který má být propuštìn a ten bude z databáze smazán, pøièemž veškeré èinnosti, které tento zamìstnanec provádìl, budou efektivnì rozdìleny mezi zbývající zamìstnance (pokud je to možné, pokud ne, bude o tom uživatel informován)
+    E) Onemocnìní zamìstnance – uživatel zadá identifikaèní èíslo zamìstnance, který onemocnìl. Veškeré èinnosti tohoto zamìstnance budou efektivnì rozdìleny mezi zbývající zamìstnance (pokud je to možné, pokud ne, bude o tom uživatel informován). Tomuto zamìstnanci nebude možné zadávat žádnou práci až do jeho uzdravení.
+    F) Uzdravení zamìstnance - uživatel zadá identifikaèní èíslo nemocného zamìstnance, který se uzdravil. Od této doby mu lze pøidìlovat práci. (Po uzdravení zamìstnance není tøeba øešit pøerozdìlení aktuálních prací).
+    G) Nastavení maximálního možného úvazku pro všechny zamìstnance (hodin/mìsíc).
+    H) Výpis poètu zamìstnancù na jednotlivých pozicích a jejich aktuálnì volné úvazky.
+    I) Výpis celkových finanèních prostøedkù aktuálnì vynakládaných za jeden mìsíc.
+    J) Výpis všech zamìstnancù (identifikaèní èíslo, jméno, pøíjmení, pozice, aktuálnì vykonávané èinnosti s poètem hodin). Výpis bude øazen buï podle ID nebo podle pøíjmení zamìstnancù (volba uživatele). 
+    k) Uložení celé databáze do souboru
+    l) Naètení celé databáze ze souboru
+
+POZN:
+1. Celá aplikace je zjednodušená tak, že zadávání je na "tento konkrétní mìsíc". Tzn. pøedstavit si, že šéf pøidává práci v prùbìhu mìsíce aby vìdìl, kolik kapacit má tento mìsíc volných. Nic víc. Neodèítá se žádná "odpracovaná práce" ani nic podobného. Je to jen soupis práce = hodin, které mají jeho zamìstnanci pøidìleny. Následující mìsíc se to jakoby "resetuje" (to v programu neøešit, popø. udìlat metodu "Clear" kdy se vymaže veškerá práce) a šéf opìt zadává hodiny.
+2. co se týèe bodu b), tam je to myšleno tak, že i když má zamìstnanec maximálnì hodin 160, tak já mùžu zadat 1000 hodin administrativní práce. Tìch 1000 hodin se musí efektivnì rozdìlit s ohledem na mzdovou nároènost, která pozice ji mùže vykonávat a taky tak, že maximálnì mùže mít zamìstnanec 160.

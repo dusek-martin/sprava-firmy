@@ -3,7 +3,7 @@ package swing;
 import javax.swing.JFrame;
 
 public class SwingMainWindow {
-
+/*
 	public static void main(String[] args) {
 		try {
 			Gui frame = new Gui("Hlavní okno");
@@ -13,9 +13,9 @@ public class SwingMainWindow {
 			frame.setLocationRelativeTo(null);
 			// frame.pack(); // velikost okna pøímo na komponenty
 		} catch (Exception e) {
-			System.out.println("Swing main catch chyba.");
+			System.out.println("Swing main catch chyba."+e);
 		}
 
 	}
-
+*/
 }

@@ -21,17 +21,26 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import model.DatabaseOfEmployees;
+import java.awt.CardLayout;
+import java.awt.Color;
+import javax.swing.JTextPane;
+import javax.swing.border.MatteBorder;
+import javax.swing.UIManager;
 
 public class JFrameMainWindow extends JFrame {
 
 	private JPanel contentPane;
+	private JPanel panelCenterMain;
 	private JLabel lblTitle;
 	private JButton btnList;
 	private JButton btnAdd;
 	private JButton btnDel;
 	private JButton btnClose;
-	private JTextArea txtrListOfEmployees;
 	private DatabaseOfEmployees datZam;
+	private JPanel panelEmployeesList;
+	private JPanel panelAdd;
+	private JPanel panelDel;
+	private JTextArea txtrListOfEmployees;
 	/**
 	 * Launch the application.
 	 */
@@ -69,12 +78,13 @@ public class JFrameMainWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelLeftMain = new JPanel();
+		panelLeftMain.setBorder(new MatteBorder(0, 0, 0, 2, (Color) Color.LIGHT_GRAY));
 		contentPane.add(panelLeftMain, BorderLayout.WEST);
 		GridBagLayout gbl_panelLeftMain = new GridBagLayout();
 		gbl_panelLeftMain.columnWidths = new int[]{100, 0};
-		gbl_panelLeftMain.rowHeights = new int[]{39, 1, 0, 0, 0, 0};
+		gbl_panelLeftMain.rowHeights = new int[]{39, 1, 0, 0, 0, 0, 0};
 		gbl_panelLeftMain.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panelLeftMain.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelLeftMain.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelLeftMain.setLayout(gbl_panelLeftMain);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(100);
@@ -110,12 +120,22 @@ public class JFrameMainWindow extends JFrame {
 		gbc_btnDel.gridy = 4;
 		panelLeftMain.add(btnDel, gbc_btnDel);
 		
+		btnClose = new JButton("Close");
+		GridBagConstraints gbc_btnClose = new GridBagConstraints();
+		gbc_btnClose.insets = new Insets(5, 10, 5, 10);
+		gbc_btnClose.fill = GridBagConstraints.BOTH;
+		gbc_btnClose.gridx = 0;
+		gbc_btnClose.gridy = 5;
+		panelLeftMain.add(btnClose, gbc_btnClose);
+		
 		EventButton eventButton = new EventButton();
 		btnList.addActionListener(eventButton);
 		btnAdd.addActionListener(eventButton);
 		btnDel.addActionListener(eventButton);
+		btnClose.addActionListener(eventButton);
 		
 		JPanel panelTopMain = new JPanel();
+		panelTopMain.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
 		contentPane.add(panelTopMain, BorderLayout.NORTH);
 		
 		lblTitle = new JLabel("LIST OF EMPLOYEES");
@@ -124,73 +144,87 @@ public class JFrameMainWindow extends JFrame {
 		Component verticalStrut = Box.createVerticalStrut(60);
 		panelTopMain.add(verticalStrut);
 		
-		JPanel panelCenterMain = new JPanel();
+		panelCenterMain = new JPanel();
 		contentPane.add(panelCenterMain, BorderLayout.CENTER);
+		panelCenterMain.setLayout(new CardLayout(0, 0));
+		
+		panelEmployeesList = new JPanel();
+		panelCenterMain.add(panelEmployeesList, "name_103383212123600");
 		
 		txtrListOfEmployees = new JTextArea();
-		txtrListOfEmployees.setText("adsfasfass");
-		
-		JLabel lblListOfEmployees = new JLabel("List of employees");
-		
-		btnClose = new JButton("Close");
-		btnClose.addActionListener(eventButton);
-		GroupLayout gl_panelCenterMain = new GroupLayout(panelCenterMain);
-		gl_panelCenterMain.setHorizontalGroup(
-			gl_panelCenterMain.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelCenterMain.createSequentialGroup()
+		txtrListOfEmployees.setEditable(false);
+		txtrListOfEmployees.setWrapStyleWord(true);
+		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdToString());
+		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
+		gl_panelEmployeesList.setHorizontalGroup(
+			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelEmployeesList.createSequentialGroup()
 					.addGap(40)
-					.addGroup(gl_panelCenterMain.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelCenterMain.createSequentialGroup()
-							.addComponent(lblListOfEmployees)
-							.addContainerGap())
-						.addGroup(gl_panelCenterMain.createSequentialGroup()
-							.addComponent(txtrListOfEmployees)
-							.addGap(5)
-							.addComponent(btnClose, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addGap(5))))
+					.addComponent(txtrListOfEmployees, GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+					.addGap(100))
 		);
-		gl_panelCenterMain.setVerticalGroup(
-			gl_panelCenterMain.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelCenterMain.createSequentialGroup()
-					.addGroup(gl_panelCenterMain.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelCenterMain.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnClose, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelCenterMain.createSequentialGroup()
-							.addGap(20)
-							.addComponent(lblListOfEmployees)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtrListOfEmployees)))
+		gl_panelEmployeesList.setVerticalGroup(
+			gl_panelEmployeesList.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelEmployeesList.createSequentialGroup()
+					.addGap(40)
+					.addComponent(txtrListOfEmployees, GroupLayout.PREFERRED_SIZE, 136, Short.MAX_VALUE)
 					.addGap(20))
 		);
-		panelCenterMain.setLayout(gl_panelCenterMain);
+		panelEmployeesList.setLayout(gl_panelEmployeesList);
+		
+		panelAdd = new JPanel();
+		panelAdd.setBackground(Color.RED);
+		panelCenterMain.add(panelAdd, "name_103423694458300");
+		
+		panelDel = new JPanel();
+		panelDel.setBackground(Color.GREEN);
+		panelCenterMain.add(panelDel, "name_103427308961800");
 	}
 	
 	private class EventButton implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnList){
-				txtrListOfEmployees.setText(datZam.listOfEmployeesByIdToString());
-			} else if (e.getSource() == btnAdd) {
-				txtrListOfEmployees.setText("bbbbbbbbbbbbbbbbbbb");
-			} else if (e.getSource() == btnDel) {
-				txtrListOfEmployees.setText("ccccccccccccccccc");
+				// removing panel
+				panelCenterMain.removeAll();
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				
+				//adding panel
+				panelCenterMain.add(panelEmployeesList);
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+
+				// other changes
+				lblTitle.setText("LIST OF EMPLOYEES");
+			} else if (e.getSource() == btnAdd) {	
+				// removing panel
+				panelCenterMain.removeAll();
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				
+				//adding panel
+				panelCenterMain.add(panelAdd);
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				
+				// other changes
+				lblTitle.setText("ADD NEW EMPLOYEE");
+			} else if (e.getSource() == btnDel) {	
+				// removing panel
+				panelCenterMain.removeAll();
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				
+				//adding panel
+				panelCenterMain.add(panelDel);
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+
+				// other changes
+				lblTitle.setText("DELETE AN EMPLOYEE");
 			} else if (e.getSource() == btnClose) {
-				lblTitle.setText("Nevím jak to zavøííííít.");
+				System.exit(0);
 			}
-			
-/*	
-			switch (((JButton)e.getSource()).getName()) {
-			case "list":
-				employeesToString.setText(datZam.listOfEmployeesByIdToString());
-				break;
-			case "add":
-				break;
-			case "del":
-				break;
-			default:
-				break;
-			}
- */
 		}
 	}
 }

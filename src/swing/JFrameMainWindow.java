@@ -26,6 +26,8 @@ import java.awt.Color;
 import javax.swing.JTextPane;
 import javax.swing.border.MatteBorder;
 import javax.swing.UIManager;
+import java.awt.SystemColor;
+import javax.swing.JScrollPane;
 
 public class JFrameMainWindow extends JFrame {
 
@@ -40,6 +42,7 @@ public class JFrameMainWindow extends JFrame {
 	private JPanel panelEmployeesList;
 	private JPanel panelAdd;
 	private JPanel panelDel;
+	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
 	/**
 	 * Launch the application.
@@ -78,6 +81,7 @@ public class JFrameMainWindow extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelLeftMain = new JPanel();
+		panelLeftMain.setBackground(SystemColor.menu);
 		panelLeftMain.setBorder(new MatteBorder(0, 0, 0, 2, (Color) Color.LIGHT_GRAY));
 		contentPane.add(panelLeftMain, BorderLayout.WEST);
 		GridBagLayout gbl_panelLeftMain = new GridBagLayout();
@@ -135,13 +139,14 @@ public class JFrameMainWindow extends JFrame {
 		btnClose.addActionListener(eventButton);
 		
 		JPanel panelTopMain = new JPanel();
+		panelTopMain.setBackground(SystemColor.menu);
 		panelTopMain.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
 		contentPane.add(panelTopMain, BorderLayout.NORTH);
 		
 		lblTitle = new JLabel("LIST OF EMPLOYEES");
 		panelTopMain.add(lblTitle);
 		
-		Component verticalStrut = Box.createVerticalStrut(60);
+		Component verticalStrut = Box.createVerticalStrut(40);
 		panelTopMain.add(verticalStrut);
 		
 		panelCenterMain = new JPanel();
@@ -149,27 +154,30 @@ public class JFrameMainWindow extends JFrame {
 		panelCenterMain.setLayout(new CardLayout(0, 0));
 		
 		panelEmployeesList = new JPanel();
+		panelEmployeesList.setBackground(SystemColor.menu);
 		panelCenterMain.add(panelEmployeesList, "name_103383212123600");
 		
-		txtrListOfEmployees = new JTextArea();
-		txtrListOfEmployees.setEditable(false);
-		txtrListOfEmployees.setWrapStyleWord(true);
-		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdToString());
+		scrollPane = new JScrollPane();
 		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
 		gl_panelEmployeesList.setHorizontalGroup(
-			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelEmployeesList.createSequentialGroup()
-					.addGap(40)
-					.addComponent(txtrListOfEmployees, GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
-					.addGap(100))
-		);
-		gl_panelEmployeesList.setVerticalGroup(
 			gl_panelEmployeesList.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelEmployeesList.createSequentialGroup()
 					.addGap(40)
-					.addComponent(txtrListOfEmployees, GroupLayout.PREFERRED_SIZE, 136, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+					.addGap(100))
+		);
+		gl_panelEmployeesList.setVerticalGroup(
+			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelEmployeesList.createSequentialGroup()
+					.addGap(40)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
 					.addGap(20))
 		);
+		
+		txtrListOfEmployees = new JTextArea();
+		txtrListOfEmployees.setEditable(false);
+		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdToString());
+		scrollPane.setViewportView(txtrListOfEmployees);
 		panelEmployeesList.setLayout(gl_panelEmployeesList);
 		
 		panelAdd = new JPanel();

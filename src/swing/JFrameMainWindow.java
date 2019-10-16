@@ -44,6 +44,7 @@ public class JFrameMainWindow extends JFrame {
 	private JPanel panelDel;
 	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
+	private JLabel lblNumberOfEmployees;
 	/**
 	 * Launch the application.
 	 */
@@ -158,25 +159,41 @@ public class JFrameMainWindow extends JFrame {
 		panelCenterMain.add(panelEmployeesList, "name_103383212123600");
 		
 		scrollPane = new JScrollPane();
+		
+		JLabel lblWageIntensity = new JLabel("Mìsíèní mzdová nároènost: "+datZam.getCosts()+" Kè");
+		lblNumberOfEmployees = new JLabel("Poèet zamìstnancù celkem: "+datZam.getArrayList().size());
 		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
 		gl_panelEmployeesList.setHorizontalGroup(
-			gl_panelEmployeesList.createParallelGroup(Alignment.LEADING)
+			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelEmployeesList.createSequentialGroup()
-					.addGap(40)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+					.addGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelEmployeesList.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNumberOfEmployees))
+						.addGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_panelEmployeesList.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(lblWageIntensity))
+							.addGroup(gl_panelEmployeesList.createSequentialGroup()
+								.addGap(40)
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))))
 					.addGap(100))
 		);
 		gl_panelEmployeesList.setVerticalGroup(
 			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelEmployeesList.createSequentialGroup()
 					.addGap(40)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-					.addGap(20))
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+					.addGap(35)
+					.addComponent(lblNumberOfEmployees)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblWageIntensity)
+					.addContainerGap())
 		);
 		
 		txtrListOfEmployees = new JTextArea();
 		txtrListOfEmployees.setEditable(false);
-		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdToString());
+		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
 		scrollPane.setViewportView(txtrListOfEmployees);
 		panelEmployeesList.setLayout(gl_panelEmployeesList);
 		

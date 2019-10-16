@@ -58,7 +58,6 @@ public class DatabaseOfEmployees {
 		}
 	}
 
-	// pøidání zamìstnance
 	private boolean addEmployee(Employee employee) {
 		// taky by šlo napsat if employee instanceof Director
 		if ((employee.getPosition() == Position.director) && isDirectorAlready()
@@ -270,15 +269,6 @@ public class DatabaseOfEmployees {
 		}
 	}
 
-	public void listOfEmployeesByIdWithWork() {
-		Collections.sort(employees, Employee.idComparator);
-		for (Employee z : employees) {
-			System.out.println(z);
-			System.out.println(z.infoWork());
-			if (!z.infoWork().contentEquals(""))
-				System.out.println();
-		}
-	}
 
 	public void listOfEmployeesByIdWithWork(Position position) {
 		Collections.sort(employees, Employee.idComparator);
@@ -297,6 +287,18 @@ public class DatabaseOfEmployees {
 		String s="";
 		for (Employee z : employees) {
 			s+=z;
+			s+="\n";
+		}
+		return s;
+	}
+	public String listOfEmployeesByIdWithWorkToString() {
+		Collections.sort(employees, Employee.idComparator);
+		String s="";
+		for (Employee z : employees) {
+			s+=z+"\n";
+			s+=z.infoWork();
+			if (!z.infoWork().contentEquals(""))
+				s+="\n";
 			s+="\n";
 		}
 		return s;

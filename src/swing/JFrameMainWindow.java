@@ -81,7 +81,7 @@ public class JFrameMainWindow extends JFrame {
 	 */
 	public JFrameMainWindow() {
 
-		setTitle("Spr\u00E1va firmy");
+		setTitle("Správa firmy");
 
 		try {
 			datZam = new DatabaseOfEmployees("databaze");

@@ -45,6 +45,7 @@ public class JFrameMainWindow extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
 	private JLabel lblNumberOfEmployees;
+	private JLabel lblDirectorsName;
 	/**
 	 * Launch the application.
 	 */
@@ -162,6 +163,8 @@ public class JFrameMainWindow extends JFrame {
 		
 		JLabel lblWageIntensity = new JLabel("Mìsíèní mzdová nároènost: "+datZam.getCosts()+" Kè");
 		lblNumberOfEmployees = new JLabel("Poèet zamìstnancù celkem: "+datZam.getArrayList().size());
+		
+		lblDirectorsName = new JLabel("Øeditel: "+datZam.findEmployee(datZam.getDirectorsId()).getName()+" "+datZam.findEmployee(datZam.getDirectorsId()).getSurname()+", ID "+datZam.getDirectorsId()+" ");
 		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
 		gl_panelEmployeesList.setHorizontalGroup(
 			gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
@@ -169,14 +172,18 @@ public class JFrameMainWindow extends JFrame {
 					.addGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelEmployeesList.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblNumberOfEmployees))
+							.addComponent(lblDirectorsName))
 						.addGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 							.addGroup(gl_panelEmployeesList.createSequentialGroup()
 								.addContainerGap()
-								.addComponent(lblWageIntensity))
-							.addGroup(gl_panelEmployeesList.createSequentialGroup()
-								.addGap(40)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE))))
+								.addComponent(lblNumberOfEmployees))
+							.addGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panelEmployeesList.createSequentialGroup()
+									.addContainerGap()
+									.addComponent(lblWageIntensity))
+								.addGroup(gl_panelEmployeesList.createSequentialGroup()
+									.addGap(40)
+									.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))))
 					.addGap(100))
 		);
 		gl_panelEmployeesList.setVerticalGroup(
@@ -184,7 +191,9 @@ public class JFrameMainWindow extends JFrame {
 				.addGroup(gl_panelEmployeesList.createSequentialGroup()
 					.addGap(40)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
-					.addGap(35)
+					.addGap(15)
+					.addComponent(lblDirectorsName)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblNumberOfEmployees)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblWageIntensity)

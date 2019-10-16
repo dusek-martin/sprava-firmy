@@ -358,6 +358,15 @@ public class DatabaseOfEmployees {
 		return false;
 	}
 
+	public int getDirectorsId() {
+		for (Employee z : employees) {
+			if (z.getPosition() == Position.director) {
+				return z.getId();
+			}
+		}
+		return -1;
+	}
+	
 	public int getCosts() {
 		int costs = 0;
 		for (Employee z : employees) {

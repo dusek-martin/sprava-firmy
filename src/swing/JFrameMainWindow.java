@@ -212,9 +212,9 @@ public class JFrameMainWindow extends JFrame {
 		panelAdd.setBackground(SystemColor.menu);
 		panelCenterMain.add(panelAdd, "name_103423694458300");
 
-		lblAddName = new JLabel("Jméno:");
+		lblAddName = new JLabel("Name:");
 
-		lblAddSurname = new JLabel("Pøíjmení:");
+		lblAddSurname = new JLabel("Surname:");
 
 		textAddName = new JTextField();
 		textAddName.setColumns(10);
@@ -222,12 +222,12 @@ public class JFrameMainWindow extends JFrame {
 		textAddSurname = new JTextField();
 		textAddSurname.setColumns(10);
 
-		JLabel lblAddPozice = new JLabel("Pozice:");
+		JLabel lblAddPozice = new JLabel("Position:");
 		btnGrp = new ButtonGroup();
-		rdbtnAddDirector = new JRadioButton("Øeditel");
-		rdbtnAddDeveloper = new JRadioButton("Vývojový pracovník");
-		rdbtnAddTechnicalWorker = new JRadioButton("Technický pracovník");
-		rdbtnAddAssistant = new JRadioButton("Asistent");
+		rdbtnAddDirector = new JRadioButton("Director");
+		rdbtnAddDeveloper = new JRadioButton("Developer");
+		rdbtnAddTechnicalWorker = new JRadioButton("Technical worker");
+		rdbtnAddAssistant = new JRadioButton("Assistant");
 		btnGrp.add(rdbtnAddDirector);
 		btnGrp.add(rdbtnAddDeveloper);
 		btnGrp.add(rdbtnAddTechnicalWorker);
@@ -288,6 +288,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("LIST OF EMPLOYEES");
+				
 			} else if (e.getSource() == btnAdd) {
 				// removing panel
 				panelCenterMain.removeAll();
@@ -299,6 +300,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("ADD NEW EMPLOYEE");
+				
 			} else if (e.getSource() == btnDel) {
 				// removing panel
 				panelCenterMain.removeAll();
@@ -310,6 +312,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("DELETE AN EMPLOYEE");
+				
 			} else if (e.getSource() == btnAddEmployeeToDatabase) {
 
 				String name = textAddName.getText();
@@ -335,6 +338,7 @@ public class JFrameMainWindow extends JFrame {
 					lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
 							+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId() + " ");
 					lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
+					
 				} else {
 					return;
 				}

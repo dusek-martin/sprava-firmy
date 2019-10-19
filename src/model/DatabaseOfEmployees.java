@@ -376,6 +376,7 @@ public class DatabaseOfEmployees {
 	}
 
 	public ArrayList<Employee> getArrayList() {
+		Collections.sort(employees, Employee.idComparator);
 		return employees;
 	}
 

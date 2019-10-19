@@ -11,12 +11,14 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,6 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import model.DatabaseOfEmployees;
+import model.Employee;
 import model.Position;
 
 public class JFrameMainWindow extends JFrame {
@@ -47,6 +50,7 @@ public class JFrameMainWindow extends JFrame {
 	private JLabel lblAddSurname;
 	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
+	private JTextArea txtrListOfEmployeesDel;
 	private JTextField textAddName;
 	private JTextField textAddSurname;
 	private JButton btnList;
@@ -59,6 +63,9 @@ public class JFrameMainWindow extends JFrame {
 	private JRadioButton rdbtnAddDeveloper;
 	private JRadioButton rdbtnAddTechnicalWorker;
 	private JRadioButton rdbtnAddAssistant;
+	private JButton btnSetEmployeeIll;
+	private JButton btnDeleteEmployee;
+	private JComboBox comboBoxEmployeeDel;
 
 	/**
 	 * Launch the application.
@@ -116,7 +123,7 @@ public class JFrameMainWindow extends JFrame {
 		gbc_horizontalStrut.gridy = 1;
 		panelLeftMain.add(horizontalStrut, gbc_horizontalStrut);
 
-		btnList = new JButton("List");
+		btnList = new JButton("LIST");
 		GridBagConstraints gbc_btnList = new GridBagConstraints();
 		gbc_btnList.fill = GridBagConstraints.BOTH;
 		gbc_btnList.insets = new Insets(5, 10, 5, 10);
@@ -124,7 +131,7 @@ public class JFrameMainWindow extends JFrame {
 		gbc_btnList.gridy = 2;
 		panelLeftMain.add(btnList, gbc_btnList);
 
-		btnAdd = new JButton("Add");
+		btnAdd = new JButton("ADD");
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.fill = GridBagConstraints.BOTH;
 		gbc_btnAdd.insets = new Insets(5, 10, 5, 10);
@@ -132,7 +139,7 @@ public class JFrameMainWindow extends JFrame {
 		gbc_btnAdd.gridy = 3;
 		panelLeftMain.add(btnAdd, gbc_btnAdd);
 
-		btnDel = new JButton("Del");
+		btnDel = new JButton("DEL/ILL");
 		GridBagConstraints gbc_btnDel = new GridBagConstraints();
 		gbc_btnDel.fill = GridBagConstraints.BOTH;
 		gbc_btnDel.insets = new Insets(5, 10, 5, 10);
@@ -140,7 +147,7 @@ public class JFrameMainWindow extends JFrame {
 		gbc_btnDel.gridy = 4;
 		panelLeftMain.add(btnDel, gbc_btnDel);
 
-		btnClose = new JButton("Close");
+		btnClose = new JButton("CLOSE");
 		GridBagConstraints gbc_btnClose = new GridBagConstraints();
 		gbc_btnClose.insets = new Insets(5, 10, 5, 10);
 		gbc_btnClose.fill = GridBagConstraints.BOTH;
@@ -271,8 +278,62 @@ public class JFrameMainWindow extends JFrame {
 		panelAdd.setLayout(gl_panelAdd);
 
 		panelDel = new JPanel();
-		panelDel.setBackground(Color.GREEN);
+		panelDel.setBackground(SystemColor.menu);
 		panelCenterMain.add(panelDel, "name_103427308961800");
+
+		JScrollPane scrollPaneListDel = new JScrollPane();
+
+		comboBoxEmployeeDel = new JComboBox();
+		comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+		for (Employee e : datZam.getArrayList()) {
+			comboBoxEmployeeDel.addItem(e.toString());
+		}
+
+		btnSetEmployeeIll = new JButton("SET EMPLOYEE ILL/HEALTHY");
+
+		btnDeleteEmployee = new JButton("DELETE EMPLOYEE");
+
+		btnSetEmployeeIll.addActionListener(eventButton);
+		btnDeleteEmployee.addActionListener(eventButton);
+
+		GroupLayout gl_panelDel = new GroupLayout(panelDel);
+		gl_panelDel.setHorizontalGroup(
+			gl_panelDel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelDel.createSequentialGroup()
+					.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelDel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_panelDel.createSequentialGroup()
+								.addContainerGap(364, Short.MAX_VALUE)
+								.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_panelDel.createSequentialGroup()
+								.addGap(40)
+								.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+									.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 484, Short.MAX_VALUE)
+									.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))))
+					.addGap(100))
+		);
+		gl_panelDel.setVerticalGroup(
+			gl_panelDel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDel.createSequentialGroup()
+					.addGap(40)
+					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+					.addGap(20)
+					.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(20)
+					.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(15)
+					.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(40))
+		);
+
+		txtrListOfEmployeesDel = new JTextArea();
+		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
+		txtrListOfEmployeesDel.setEditable(false);
+		scrollPaneListDel.setViewportView(txtrListOfEmployeesDel);
+		panelDel.setLayout(gl_panelDel);
 	}
 
 	private class EventButton implements ActionListener {
@@ -288,7 +349,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("LIST OF EMPLOYEES");
-				
+
 			} else if (e.getSource() == btnAdd) {
 				// removing panel
 				panelCenterMain.removeAll();
@@ -300,7 +361,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("ADD NEW EMPLOYEE");
-				
+
 			} else if (e.getSource() == btnDel) {
 				// removing panel
 				panelCenterMain.removeAll();
@@ -312,7 +373,7 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("DELETE AN EMPLOYEE");
-				
+
 			} else if (e.getSource() == btnAddEmployeeToDatabase) {
 
 				String name = textAddName.getText();
@@ -334,11 +395,19 @@ public class JFrameMainWindow extends JFrame {
 					datZam.addEmployee(name, surname, position);
 					datZam.saveToCSV();
 					txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
+					txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
 					lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
 					lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
-							+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId() + " ");
+							+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
+							+ datZam.getDirectorsId() + " ");
 					lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
-					
+
+					comboBoxEmployeeDel.removeAllItems();
+					comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+					for (Employee employee : datZam.getArrayList()) {
+						comboBoxEmployeeDel.addItem(employee.toString());
+					}
+
 				} else {
 					return;
 				}
@@ -352,6 +421,92 @@ public class JFrameMainWindow extends JFrame {
 				panelCenterMain.revalidate();
 				// other changes
 				lblTitle.setText("LIST OF EMPLOYEES");
+
+			} else if (e.getSource() == btnSetEmployeeIll) {
+				boolean succes = false;
+				for (Employee employee : datZam.getArrayList()) {
+					if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+
+						if (employee.isHealthy()) {
+							datZam.setEmployeeIll(employee.getId());
+						} else {
+							datZam.setEmployeeHealthy(employee.getId());
+						}
+						comboBoxEmployeeDel.setSelectedIndex(0);
+						datZam.saveToCSV();
+						txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
+						txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
+						lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+						lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName()
+								+ " " + datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
+								+ datZam.getDirectorsId() + " ");
+						lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
+
+						comboBoxEmployeeDel.removeAllItems();
+						comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+						for (Employee employee1 : datZam.getArrayList()) {
+							comboBoxEmployeeDel.addItem(employee1.toString());
+						}
+
+						succes = true;
+						break;
+					}
+				}
+				if (!succes) {
+					return;
+				}
+
+				// removing panel
+				panelCenterMain.removeAll();
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				// adding panel
+				panelCenterMain.add(panelDel);
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				// other changes
+//			lblTitle.setText("DELETE AN EMPLOYEE");
+
+			} else if (e.getSource() == btnDeleteEmployee) {
+				boolean succes = false;
+				for (Employee employee : datZam.getArrayList()) {
+					if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+
+						datZam.deleteEmployee(employee.getId());
+						comboBoxEmployeeDel.setSelectedIndex(0);
+						datZam.saveToCSV();
+						txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
+						txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
+						lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+						lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName()
+								+ " " + datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
+								+ datZam.getDirectorsId() + " ");
+						lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
+
+						comboBoxEmployeeDel.removeAllItems();
+						comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+						for (Employee employee1 : datZam.getArrayList()) {
+							comboBoxEmployeeDel.addItem(employee1.toString());
+						}
+
+						succes = true;
+						break;
+					}
+				}
+				if (!succes) {
+					return;
+				}
+
+				// removing panel
+				panelCenterMain.removeAll();
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				// adding panel
+				panelCenterMain.add(panelDel);
+				panelCenterMain.repaint();
+				panelCenterMain.revalidate();
+				// other changes
+				lblTitle.setText("EMPLOYEE DELETED");
 
 			} else if (e.getSource() == btnClose) {
 				System.exit(0);

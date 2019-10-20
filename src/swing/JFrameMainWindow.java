@@ -297,37 +297,32 @@ public class JFrameMainWindow extends JFrame {
 		btnDeleteEmployee.addActionListener(eventButton);
 
 		GroupLayout gl_panelDel = new GroupLayout(panelDel);
-		gl_panelDel.setHorizontalGroup(
-			gl_panelDel.createParallelGroup(Alignment.TRAILING)
+		gl_panelDel.setHorizontalGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelDel.createSequentialGroup()
-					.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelDel.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_panelDel.createSequentialGroup()
-								.addContainerGap(364, Short.MAX_VALUE)
-								.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_panelDel.createSequentialGroup()
-								.addGap(40)
+								.addGroup(gl_panelDel.createSequentialGroup().addContainerGap().addComponent(
+										btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-									.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 484, Short.MAX_VALUE)
-									.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))))
-					.addGap(100))
-		);
-		gl_panelDel.setVerticalGroup(
-			gl_panelDel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelDel.createSequentialGroup()
-					.addGap(40)
-					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-					.addGap(20)
-					.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(20)
-					.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addGap(15)
-					.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-					.addGap(40))
-		);
+										.addGroup(gl_panelDel.createSequentialGroup()
+												.addContainerGap(364, Short.MAX_VALUE).addComponent(btnSetEmployeeIll,
+														GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
+												.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+														.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 484,
+																Short.MAX_VALUE)
+														.addComponent(scrollPaneListDel, Alignment.LEADING,
+																GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)))))
+						.addGap(100)));
+		gl_panelDel.setVerticalGroup(gl_panelDel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
+						.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE).addGap(20)
+						.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addGap(20)
+						.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGap(15)
+						.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGap(40)));
 
 		txtrListOfEmployeesDel = new JTextArea();
 		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
@@ -339,178 +334,127 @@ public class JFrameMainWindow extends JFrame {
 	private class EventButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnList) {
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelEmployeesList);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
+				changePanelCentralMain(panelEmployeesList);
 				// other changes
 				lblTitle.setText("LIST OF EMPLOYEES");
-
 			} else if (e.getSource() == btnAdd) {
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelAdd);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
+				changePanelCentralMain(panelAdd);
 				// other changes
 				lblTitle.setText("ADD NEW EMPLOYEE");
-
 			} else if (e.getSource() == btnDel) {
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelDel);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
+				changePanelCentralMain(panelDel);
 				// other changes
-				lblTitle.setText("DELETE AN EMPLOYEE");
-
+				lblTitle.setText("DELETE AN EMPLOYEE OR SET EMPLOYEE ILL/HEALTHY");
 			} else if (e.getSource() == btnAddEmployeeToDatabase) {
-
-				String name = textAddName.getText();
-				String surname = textAddSurname.getText();
-				Position position;
-				if (rdbtnAddDirector.isSelected()) {
-					position = Position.director;
-				} else if (rdbtnAddDeveloper.isSelected()) {
-					position = Position.developer;
-				} else if (rdbtnAddTechnicalWorker.isSelected()) {
-					position = Position.technicalWorker;
-				} else if (rdbtnAddAssistant.isSelected()) {
-					position = Position.assistant;
-				} else {
-					return;
-				}
-				if ((name != null && !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
-					btnGrp.clearSelection();
-					datZam.addEmployee(name, surname, position);
-					datZam.saveToCSV();
-					txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
-					txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
-					lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
-					lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
-							+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
-							+ datZam.getDirectorsId() + " ");
-					lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
-
-					comboBoxEmployeeDel.removeAllItems();
-					comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
-					for (Employee employee : datZam.getArrayList()) {
-						comboBoxEmployeeDel.addItem(employee.toString());
-					}
-
-				} else {
-					return;
-				}
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelEmployeesList);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// other changes
-				lblTitle.setText("LIST OF EMPLOYEES");
-
+				btnAddEmployeeToDatabase();
 			} else if (e.getSource() == btnSetEmployeeIll) {
-				boolean succes = false;
-				for (Employee employee : datZam.getArrayList()) {
-					if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
-
-						if (employee.isHealthy()) {
-							datZam.setEmployeeIll(employee.getId());
-						} else {
-							datZam.setEmployeeHealthy(employee.getId());
-						}
-						comboBoxEmployeeDel.setSelectedIndex(0);
-						datZam.saveToCSV();
-						txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
-						txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
-						lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
-						lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName()
-								+ " " + datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
-								+ datZam.getDirectorsId() + " ");
-						lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
-
-						comboBoxEmployeeDel.removeAllItems();
-						comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
-						for (Employee employee1 : datZam.getArrayList()) {
-							comboBoxEmployeeDel.addItem(employee1.toString());
-						}
-
-						succes = true;
-						break;
-					}
-				}
-				if (!succes) {
-					return;
-				}
-
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelDel);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// other changes
-//			lblTitle.setText("DELETE AN EMPLOYEE");
-
+				btnSetEmployeeIll();
 			} else if (e.getSource() == btnDeleteEmployee) {
-				boolean succes = false;
-				for (Employee employee : datZam.getArrayList()) {
-					if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
-
-						datZam.deleteEmployee(employee.getId());
-						comboBoxEmployeeDel.setSelectedIndex(0);
-						datZam.saveToCSV();
-						txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
-						txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
-						lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
-						lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName()
-								+ " " + datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID "
-								+ datZam.getDirectorsId() + " ");
-						lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
-
-						comboBoxEmployeeDel.removeAllItems();
-						comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
-						for (Employee employee1 : datZam.getArrayList()) {
-							comboBoxEmployeeDel.addItem(employee1.toString());
-						}
-
-						succes = true;
-						break;
-					}
-				}
-				if (!succes) {
-					return;
-				}
-
-				// removing panel
-				panelCenterMain.removeAll();
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// adding panel
-				panelCenterMain.add(panelDel);
-				panelCenterMain.repaint();
-				panelCenterMain.revalidate();
-				// other changes
-				lblTitle.setText("EMPLOYEE DELETED");
-
+				btnDeleteEmployee();
 			} else if (e.getSource() == btnClose) {
 				System.exit(0);
 			}
 		}
+
+		private void refresh() {
+			datZam.saveToCSV();
+			txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
+			txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
+			textAddName.setText("");
+			textAddSurname.setText("");
+			lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+			lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
+					+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId()
+					+ " ");
+			lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
+
+			comboBoxEmployeeDel.removeAllItems();
+			comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+			for (Employee employee1 : datZam.getArrayList()) {
+				comboBoxEmployeeDel.addItem(employee1.toString());
+			}
+		}
+
+		private void changePanelCentralMain(JPanel jPanel) {
+			// removing panel
+			panelCenterMain.removeAll();
+			panelCenterMain.repaint();
+			panelCenterMain.revalidate();
+			// adding panel
+			panelCenterMain.add(jPanel);
+			panelCenterMain.repaint();
+			panelCenterMain.revalidate();
+		}
+
+		private void btnAddEmployeeToDatabase() {
+			String name = textAddName.getText();
+			String surname = textAddSurname.getText();
+			Position position;
+			if (rdbtnAddDirector.isSelected()) {
+				position = Position.director;
+			} else if (rdbtnAddDeveloper.isSelected()) {
+				position = Position.developer;
+			} else if (rdbtnAddTechnicalWorker.isSelected()) {
+				position = Position.technicalWorker;
+			} else if (rdbtnAddAssistant.isSelected()) {
+				position = Position.assistant;
+			} else {
+				return;
+			}
+			if ((name != null && !name.isEmpty()) && (surname != null && !surname.isEmpty())) {
+				btnGrp.clearSelection();
+				datZam.addEmployee(name, surname, position);
+				refresh();
+			} else {
+				return;
+			}
+			changePanelCentralMain(panelEmployeesList);
+			// other changes
+			lblTitle.setText("LIST OF EMPLOYEES");
+		}
+
+		private void btnSetEmployeeIll() {
+			boolean succes = false;
+			for (Employee employee : datZam.getArrayList()) {
+				if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+
+					if (employee.isHealthy()) {
+						datZam.setEmployeeIll(employee.getId());
+					} else {
+						datZam.setEmployeeHealthy(employee.getId());
+					}
+					comboBoxEmployeeDel.setSelectedIndex(0);
+					refresh();
+					succes = true;
+					break;
+				}
+			}
+			if (!succes) {
+				return;
+			}
+			changePanelCentralMain(panelDel);
+			// other changes
+			lblTitle.setText("EMPLOYEE'S HEALTH CHANGED");
+		}
+
+		private void btnDeleteEmployee() {
+			boolean succes = false;
+			for (Employee employee : datZam.getArrayList()) {
+				if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+					datZam.deleteEmployee(employee.getId());
+					comboBoxEmployeeDel.setSelectedIndex(0);
+					refresh();
+					succes = true;
+					break;
+				}
+			}
+			if (!succes) {
+				return;
+			}
+			changePanelCentralMain(panelDel);
+			// other changes
+			lblTitle.setText("EMPLOYEE DELETED");
+		}
+
 	}
 }

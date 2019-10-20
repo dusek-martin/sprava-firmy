@@ -11,7 +11,6 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -33,6 +32,7 @@ import javax.swing.border.MatteBorder;
 import model.DatabaseOfEmployees;
 import model.Employee;
 import model.Position;
+import model.WorkType;
 
 public class JFrameMainWindow extends JFrame {
 
@@ -53,11 +53,13 @@ public class JFrameMainWindow extends JFrame {
 	private JTextArea txtrListOfEmployeesDel;
 	private JTextField textAddName;
 	private JTextField textAddSurname;
+	private JTextField txtHoursNumber;
 	private JButton btnList;
 	private JButton btnAdd;
-	private JButton btnDel;
+	private JButton btnDelIll;
 	private JButton btnClose;
 	private JButton btnAddEmployeeToDatabase;
+	private JButton btnConfirmChangesWorkingHours;
 	private ButtonGroup btnGrp;
 	private JRadioButton rdbtnAddDirector;
 	private JRadioButton rdbtnAddDeveloper;
@@ -66,6 +68,10 @@ public class JFrameMainWindow extends JFrame {
 	private JButton btnSetEmployeeIll;
 	private JButton btnDeleteEmployee;
 	private JComboBox comboBoxEmployeeDel;
+	private JComboBox comboBoxWorkAddDel;
+	private JComboBox comboBoxWorkType;
+	private JButton btnWork;
+	private JPanel panelWork;
 
 	/**
 	 * Launch the application.
@@ -109,9 +115,9 @@ public class JFrameMainWindow extends JFrame {
 		contentPane.add(panelLeftMain, BorderLayout.WEST);
 		GridBagLayout gbl_panelLeftMain = new GridBagLayout();
 		gbl_panelLeftMain.columnWidths = new int[] { 100, 0 };
-		gbl_panelLeftMain.rowHeights = new int[] { 39, 1, 0, 0, 0, 0, 0 };
+		gbl_panelLeftMain.rowHeights = new int[] { 39, 1, 0, 0, 0, 0, 0, 0 };
 		gbl_panelLeftMain.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_panelLeftMain.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panelLeftMain.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelLeftMain.setLayout(gbl_panelLeftMain);
 
 		Component horizontalStrut = Box.createHorizontalStrut(100);
@@ -139,26 +145,35 @@ public class JFrameMainWindow extends JFrame {
 		gbc_btnAdd.gridy = 3;
 		panelLeftMain.add(btnAdd, gbc_btnAdd);
 
-		btnDel = new JButton("DEL/ILL");
+		btnDelIll = new JButton("DEL/ILL");
 		GridBagConstraints gbc_btnDel = new GridBagConstraints();
 		gbc_btnDel.fill = GridBagConstraints.BOTH;
 		gbc_btnDel.insets = new Insets(5, 10, 5, 10);
 		gbc_btnDel.gridx = 0;
 		gbc_btnDel.gridy = 4;
-		panelLeftMain.add(btnDel, gbc_btnDel);
+		panelLeftMain.add(btnDelIll, gbc_btnDel);
+
+		btnWork = new JButton("WORK");
+		GridBagConstraints gbc_btnWork = new GridBagConstraints();
+		gbc_btnWork.fill = GridBagConstraints.BOTH;
+		gbc_btnWork.insets = new Insets(5, 10, 5, 10);
+		gbc_btnWork.gridx = 0;
+		gbc_btnWork.gridy = 5;
+		panelLeftMain.add(btnWork, gbc_btnWork);
 
 		btnClose = new JButton("CLOSE");
 		GridBagConstraints gbc_btnClose = new GridBagConstraints();
 		gbc_btnClose.insets = new Insets(5, 10, 5, 10);
 		gbc_btnClose.fill = GridBagConstraints.BOTH;
 		gbc_btnClose.gridx = 0;
-		gbc_btnClose.gridy = 5;
+		gbc_btnClose.gridy = 6;
 		panelLeftMain.add(btnClose, gbc_btnClose);
 
 		EventButton eventButton = new EventButton();
 		btnList.addActionListener(eventButton);
 		btnAdd.addActionListener(eventButton);
-		btnDel.addActionListener(eventButton);
+		btnDelIll.addActionListener(eventButton);
+		btnWork.addActionListener(eventButton);
 		btnClose.addActionListener(eventButton);
 
 		JPanel panelTopMain = new JPanel();
@@ -184,9 +199,9 @@ public class JFrameMainWindow extends JFrame {
 
 		lblWageIntensity = new JLabel("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
 		lblNumberOfEmployees = new JLabel("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
-
 		lblDirectorsName = new JLabel("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
 				+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId() + " ");
+
 		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
 		gl_panelEmployeesList.setHorizontalGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelEmployeesList.createSequentialGroup().addGroup(gl_panelEmployeesList
@@ -329,6 +344,52 @@ public class JFrameMainWindow extends JFrame {
 		txtrListOfEmployeesDel.setEditable(false);
 		scrollPaneListDel.setViewportView(txtrListOfEmployeesDel);
 		panelDel.setLayout(gl_panelDel);
+
+		panelWork = new JPanel();
+		panelCenterMain.add(panelWork, "name_13075724238800");
+
+		comboBoxWorkAddDel = new JComboBox();
+		comboBoxWorkAddDel.addItem("Pøidat nebo odebrat?");
+		comboBoxWorkAddDel.addItem("Pøidat:");
+		comboBoxWorkAddDel.addItem("Odebrat:");
+
+		txtHoursNumber = new JTextField();
+		txtHoursNumber.setText("poèet hodin");
+		txtHoursNumber.setColumns(10);
+
+		comboBoxWorkType = new JComboBox();
+		comboBoxWorkType.addItem("Vyber typ práce ze seznamu níže:");
+		int workTypeNumber = 1;
+		while (WorkType.getWorkType(workTypeNumber) != null) {
+			comboBoxWorkType.addItem(WorkType.getWorkType(workTypeNumber));
+			workTypeNumber++;
+		}
+
+		btnConfirmChangesWorkingHours = new JButton("CONFIRM");
+		btnConfirmChangesWorkingHours.addActionListener(eventButton);
+		GroupLayout gl_panelWork = new GroupLayout(panelWork);
+		gl_panelWork.setHorizontalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
+				.createSequentialGroup().addGap(40)
+				.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+				.addGap(40).addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+				.addGap(40).addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+				.addContainerGap(24, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING,
+						gl_panelWork.createSequentialGroup().addContainerGap(364, Short.MAX_VALUE)
+								.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 250,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(40)));
+		gl_panelWork.setVerticalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
+				.createSequentialGroup().addGap(40)
+				.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+				.addPreferredGap(ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
+				.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+				.addGap(20)));
+		panelWork.setLayout(gl_panelWork);
 	}
 
 	private class EventButton implements ActionListener {
@@ -341,16 +402,22 @@ public class JFrameMainWindow extends JFrame {
 				changePanelCentralMain(panelAdd);
 				// other changes
 				lblTitle.setText("ADD NEW EMPLOYEE");
-			} else if (e.getSource() == btnDel) {
+			} else if (e.getSource() == btnDelIll) {
 				changePanelCentralMain(panelDel);
 				// other changes
 				lblTitle.setText("DELETE AN EMPLOYEE OR SET EMPLOYEE ILL/HEALTHY");
+			} else if (e.getSource() == btnWork) {
+				changePanelCentralMain(panelWork);
+				// other changes
+				lblTitle.setText("ADD OR REMOVE SOME WORKING HOURS");
 			} else if (e.getSource() == btnAddEmployeeToDatabase) {
 				btnAddEmployeeToDatabase();
 			} else if (e.getSource() == btnSetEmployeeIll) {
 				btnSetEmployeeIll();
 			} else if (e.getSource() == btnDeleteEmployee) {
 				btnDeleteEmployee();
+			} else if (e.getSource() == btnConfirmChangesWorkingHours) {
+				btnConfirmChangesWorkingHours();
 			} else if (e.getSource() == btnClose) {
 				System.exit(0);
 			}
@@ -368,6 +435,9 @@ public class JFrameMainWindow extends JFrame {
 					+ " ");
 			lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
 
+			comboBoxWorkAddDel.setSelectedIndex(0);
+			comboBoxWorkType.setSelectedIndex(0);
+			txtHoursNumber.setText("poèet hodin");
 			comboBoxEmployeeDel.removeAllItems();
 			comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
 			for (Employee employee1 : datZam.getArrayList()) {
@@ -454,6 +524,42 @@ public class JFrameMainWindow extends JFrame {
 			changePanelCentralMain(panelDel);
 			// other changes
 			lblTitle.setText("EMPLOYEE DELETED");
+		}
+
+		private void btnConfirmChangesWorkingHours() {
+			
+			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisNumber(txtHoursNumber.getText()))) {
+				return;
+			}
+			
+			WorkType workType = (WorkType)comboBoxWorkType.getSelectedItem();
+			txtHoursNumber.setText(txtHoursNumber.getText().trim());
+			int hoursNumber = Integer.parseInt(txtHoursNumber.getText());
+			
+			if (comboBoxWorkAddDel.getSelectedIndex() == 1) {
+				datZam.divideTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
+				// other changes
+				lblTitle.setText("ADDED "+hoursNumber+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
+				refresh();
+				changePanelCentralMain(panelEmployeesList);
+			} else if (comboBoxWorkAddDel.getSelectedIndex() == 2) {
+				datZam.removeTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
+				// other changes
+				lblTitle.setText("REMOVED "+hoursNumber+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
+				refresh();
+				changePanelCentralMain(panelEmployeesList);
+			} else {
+				return;
+			}
+		}
+		
+		private boolean isThisNumber(String number) {
+			try {
+				int i = Integer.parseInt(number);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
 		}
 
 	}

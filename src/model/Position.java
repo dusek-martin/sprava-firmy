@@ -20,8 +20,24 @@ public enum Position {
 	public void setEvaluation(int newEvaluation) {
 		this.evaluation = newEvaluation;
 	}
+	
 	public int getEvaluation() {
 		return evaluation;
+	}
+	
+	public static Position getPosition(int positionNumber) {
+		switch (positionNumber) {
+		case 1:
+			return Position.assistant;
+		case 2:
+			return Position.technicalWorker;
+		case 3:
+			return Position.developer;
+		case 4:
+			return Position.director;
+		default:
+			return null;
+		}
 	}
 	
 	@Override

@@ -295,6 +295,16 @@ public class Work {
 			s = "Mám na práci:" + s;
 		return s;
 	}
+	
+	/**
+	 * Vrátí poèet hodin jednotlivých prací. Pokud nevykonávám danný typ práce, vrátí -1.
+	 * 
+	 * @return pole, index[0] administrativa, index[1] dokumentace, index[2] vývoj
+	 */
+	public int[] getWorkTypeHours() {
+		int[] howMuchWorkDoIHave = {howManyAdministrationHours,howManyDocumentationHours,howManyDevelopmentHours};
+		return howMuchWorkDoIHave;
+	}
 
 	public String workToCSV() {
 		return position + ";" + getEvaluation() + ";" + String.valueOf(howManyAdministrationHours) + ";"

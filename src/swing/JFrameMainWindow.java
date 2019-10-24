@@ -33,6 +33,7 @@ import model.DatabaseOfEmployees;
 import model.Employee;
 import model.Position;
 import model.WorkType;
+import javax.swing.DefaultComboBoxModel;
 
 public class JFrameMainWindow extends JFrame {
 
@@ -48,6 +49,9 @@ public class JFrameMainWindow extends JFrame {
 	private JLabel lblWageIntensity;
 	private JLabel lblAddName;
 	private JLabel lblAddSurname;
+	private JLabel lblWorkHowMuchAdministration;
+	private JLabel lblWorkHowMuchDocumentation;
+	private JLabel lblWorkHowMuchDevelopment;
 	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
 	private JTextArea txtrListOfEmployeesDel;
@@ -65,7 +69,7 @@ public class JFrameMainWindow extends JFrame {
 	private JRadioButton rdbtnAddDeveloper;
 	private JRadioButton rdbtnAddTechnicalWorker;
 	private JRadioButton rdbtnAddAssistant;
-	private JButton btnSetEmployeeIll;
+	private JButton btnChangeEmployeesHealth;
 	private JButton btnDeleteEmployee;
 	private JComboBox comboBoxEmployeeDel;
 	private JComboBox comboBoxWorkAddDel;
@@ -103,7 +107,7 @@ public class JFrameMainWindow extends JFrame {
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 752, 459);
+		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -199,9 +203,19 @@ public class JFrameMainWindow extends JFrame {
 
 		lblWageIntensity = new JLabel("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
 		lblNumberOfEmployees = new JLabel("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+		lblDirectorsName = new JLabel("");
+			if (datZam.isDirectorAlready()) {
+				lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
+					+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId()
+					+ " ");
+			} else {
+				lblDirectorsName.setText("Firma nemá øeditele!");
+			}
+		
+/*
 		lblDirectorsName = new JLabel("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
 				+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId() + " ");
-
+*/
 		GroupLayout gl_panelEmployeesList = new GroupLayout(panelEmployeesList);
 		gl_panelEmployeesList.setHorizontalGroup(gl_panelEmployeesList.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelEmployeesList.createSequentialGroup().addGroup(gl_panelEmployeesList
@@ -304,11 +318,11 @@ public class JFrameMainWindow extends JFrame {
 			comboBoxEmployeeDel.addItem(e.toString());
 		}
 
-		btnSetEmployeeIll = new JButton("SET EMPLOYEE ILL/HEALTHY");
+		btnChangeEmployeesHealth = new JButton("SET EMPLOYEE ILL/HEALTHY");
 
 		btnDeleteEmployee = new JButton("DELETE EMPLOYEE");
 
-		btnSetEmployeeIll.addActionListener(eventButton);
+		btnChangeEmployeesHealth.addActionListener(eventButton);
 		btnDeleteEmployee.addActionListener(eventButton);
 
 		GroupLayout gl_panelDel = new GroupLayout(panelDel);
@@ -319,7 +333,7 @@ public class JFrameMainWindow extends JFrame {
 										btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_panelDel.createSequentialGroup()
-												.addContainerGap(364, Short.MAX_VALUE).addComponent(btnSetEmployeeIll,
+												.addContainerGap(364, Short.MAX_VALUE).addComponent(btnChangeEmployeesHealth,
 														GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
 												.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
@@ -334,7 +348,7 @@ public class JFrameMainWindow extends JFrame {
 						.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
 						.addGap(20)
-						.addComponent(btnSetEmployeeIll, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnChangeEmployeesHealth, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addGap(15)
 						.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addGap(40)));
@@ -358,6 +372,8 @@ public class JFrameMainWindow extends JFrame {
 		txtHoursNumber.setColumns(10);
 
 		comboBoxWorkType = new JComboBox();
+		comboBoxWorkType.setToolTipText("vyber typ práce");
+//		comboBoxWorkType.setModel(new DefaultComboBoxModel(WorkType.values()));
 		comboBoxWorkType.addItem("Vyber typ práce ze seznamu níže:");
 		int workTypeNumber = 1;
 		while (WorkType.getWorkType(workTypeNumber) != null) {
@@ -367,28 +383,49 @@ public class JFrameMainWindow extends JFrame {
 
 		btnConfirmChangesWorkingHours = new JButton("CONFIRM");
 		btnConfirmChangesWorkingHours.addActionListener(eventButton);
+		
+		lblWorkHowMuchAdministration = new JLabel(String.format("Celkem máme: %s hodin administrativy",datZam.getWorkTypeHours()[0]));
+		lblWorkHowMuchDocumentation = new JLabel(String.format("Celkem máme: %s hodin dokumentace",datZam.getWorkTypeHours()[1]));
+		lblWorkHowMuchDevelopment = new JLabel(String.format("Celkem máme: %s hodin vývoje",datZam.getWorkTypeHours()[2]));
 		GroupLayout gl_panelWork = new GroupLayout(panelWork);
-		gl_panelWork.setHorizontalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
-				.createSequentialGroup().addGap(40)
-				.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-				.addGap(40).addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-				.addGap(40).addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(24, Short.MAX_VALUE))
-				.addGroup(Alignment.TRAILING,
-						gl_panelWork.createSequentialGroup().addContainerGap(364, Short.MAX_VALUE)
-								.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 250,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(40)));
-		gl_panelWork.setVerticalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
-				.createSequentialGroup().addGap(40)
-				.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
+		gl_panelWork.setHorizontalGroup(
+			gl_panelWork.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWork.createSequentialGroup()
+					.addContainerGap(336, Short.MAX_VALUE)
+					.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+					.addGap(40))
+				.addGroup(gl_panelWork.createSequentialGroup()
+					.addGap(40)
+					.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panelWork.createSequentialGroup()
+							.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+							.addGap(40)
+							.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(40)
+							.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(26, Short.MAX_VALUE))
+		);
+		gl_panelWork.setVerticalGroup(
+			gl_panelWork.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelWork.createSequentialGroup()
+					.addGap(40)
+					.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-				.addPreferredGap(ComponentPlacement.RELATED, 248, Short.MAX_VALUE)
-				.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-				.addGap(20)));
+					.addGap(20)
+					.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+					.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(20))
+		);
 		panelWork.setLayout(gl_panelWork);
 	}
 
@@ -411,13 +448,13 @@ public class JFrameMainWindow extends JFrame {
 				// other changes
 				lblTitle.setText("ADD OR REMOVE SOME WORKING HOURS");
 			} else if (e.getSource() == btnAddEmployeeToDatabase) {
-				btnAddEmployeeToDatabase();
-			} else if (e.getSource() == btnSetEmployeeIll) {
-				btnSetEmployeeIll();
+				onAddEmployeeToDatabase();
+			} else if (e.getSource() == btnChangeEmployeesHealth) {
+				onChangeEmployeesHealth();
 			} else if (e.getSource() == btnDeleteEmployee) {
-				btnDeleteEmployee();
+				onDeleteEmployee();
 			} else if (e.getSource() == btnConfirmChangesWorkingHours) {
-				btnConfirmChangesWorkingHours();
+				onConfirmChangesWorkingHours();
 			} else if (e.getSource() == btnClose) {
 				System.exit(0);
 			}
@@ -430,18 +467,26 @@ public class JFrameMainWindow extends JFrame {
 			textAddName.setText("");
 			textAddSurname.setText("");
 			lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+			if (datZam.isDirectorAlready()) {
 			lblDirectorsName.setText("Øeditel: " + datZam.findEmployee(datZam.getDirectorsId()).getName() + " "
 					+ datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " + datZam.getDirectorsId()
 					+ " ");
+			} else {
+				lblDirectorsName.setText("Firma nemá øeditele!");
+			}
 			lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
 
+			lblWorkHowMuchAdministration.setText(String.format("Celkem máme: %s hodin administrativy",datZam.getWorkTypeHours()[0]));
+			lblWorkHowMuchDocumentation.setText(String.format("Celkem máme: %s hodin dokumentace",datZam.getWorkTypeHours()[1]));
+			lblWorkHowMuchDevelopment.setText(String.format("Celkem máme: %s hodin vývoje",datZam.getWorkTypeHours()[2]));
+			
 			comboBoxWorkAddDel.setSelectedIndex(0);
 			comboBoxWorkType.setSelectedIndex(0);
 			txtHoursNumber.setText("poèet hodin");
 			comboBoxEmployeeDel.removeAllItems();
 			comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
-			for (Employee employee1 : datZam.getArrayList()) {
-				comboBoxEmployeeDel.addItem(employee1.toString());
+			for (Employee employee : datZam.getArrayList()) {
+				comboBoxEmployeeDel.addItem(employee.toString());
 			}
 		}
 
@@ -456,9 +501,10 @@ public class JFrameMainWindow extends JFrame {
 			panelCenterMain.revalidate();
 		}
 
-		private void btnAddEmployeeToDatabase() {
-			String name = textAddName.getText();
-			String surname = textAddSurname.getText();
+		private void onAddEmployeeToDatabase() {
+			String name = textAddName.getText().trim();
+			String surname = textAddSurname.getText().trim();
+			
 			Position position;
 			if (rdbtnAddDirector.isSelected()) {
 				position = Position.director;
@@ -483,7 +529,7 @@ public class JFrameMainWindow extends JFrame {
 			lblTitle.setText("LIST OF EMPLOYEES");
 		}
 
-		private void btnSetEmployeeIll() {
+		private void onChangeEmployeesHealth() {
 			boolean succes = false;
 			for (Employee employee : datZam.getArrayList()) {
 				if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
@@ -507,7 +553,7 @@ public class JFrameMainWindow extends JFrame {
 			lblTitle.setText("EMPLOYEE'S HEALTH CHANGED");
 		}
 
-		private void btnDeleteEmployee() {
+		private void onDeleteEmployee() {
 			boolean succes = false;
 			for (Employee employee : datZam.getArrayList()) {
 				if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
@@ -526,34 +572,31 @@ public class JFrameMainWindow extends JFrame {
 			lblTitle.setText("EMPLOYEE DELETED");
 		}
 
-		private void btnConfirmChangesWorkingHours() {
+		private void onConfirmChangesWorkingHours() {
 			
 			txtHoursNumber.setText(txtHoursNumber.getText().trim());
-			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisInteger(txtHoursNumber.getText()))) {
+			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisInteger(txtHoursNumber.getText()))
+					|| (comboBoxWorkAddDel.getSelectedIndex() == 0) || (comboBoxWorkType.getSelectedIndex() == 0)) {
 				return;
 			}
-			
 //			WorkType workType = (WorkType)comboBoxWorkType.getSelectedItem();
 			int hoursNumber = Integer.parseInt(txtHoursNumber.getText());
 			
 			if (comboBoxWorkAddDel.getSelectedIndex() == 1) {
-				datZam.divideTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
+//				datZam.divideTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
 				// other changes
-				lblTitle.setText("ADDED "+hoursNumber+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
-				refresh();
-				changePanelCentralMain(panelEmployeesList);
+				lblTitle.setText("ADDED "+(hoursNumber-datZam.divideTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber))+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
 			} else if (comboBoxWorkAddDel.getSelectedIndex() == 2) {
-				datZam.removeTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
+//				datZam.removeTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber);
 				// other changes
-				lblTitle.setText("REMOVED "+hoursNumber+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
-				refresh();
-				changePanelCentralMain(panelEmployeesList);
+				lblTitle.setText("REMOVED "+(hoursNumber-(datZam.removeTheWorkEffectively((WorkType)comboBoxWorkType.getSelectedItem(), hoursNumber)))+" HOURS OF "+((WorkType)comboBoxWorkType.getSelectedItem()).toString());
 			} else {
 				// other changes
 				lblTitle.setText("NEPOVEDLO SE PØIDAT/ODEBRAT PRÁCI");
-				refresh();
-				changePanelCentralMain(panelEmployeesList);
+				return;
 			}
+			refresh();
+			changePanelCentralMain(panelWork);
 		}
 		
 		private boolean isThisInteger(String number) {

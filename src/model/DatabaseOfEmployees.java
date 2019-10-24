@@ -269,7 +269,6 @@ public class DatabaseOfEmployees {
 		}
 	}
 
-
 	public void listOfEmployeesByIdWithWork(Position position) {
 		Collections.sort(employees, Employee.idComparator);
 		for (Employee z : employees) {
@@ -281,25 +280,26 @@ public class DatabaseOfEmployees {
 			}
 		}
 	}
-	
+
 	public String listOfEmployeesByIdToString() {
 		Collections.sort(employees, Employee.idComparator);
-		String s="";
+		String s = "";
 		for (Employee z : employees) {
-			s+=z;
-			s+="\n";
+			s += z;
+			s += "\n";
 		}
 		return s;
 	}
+
 	public String listOfEmployeesByIdWithWorkToString() {
 		Collections.sort(employees, Employee.idComparator);
-		String s="";
+		String s = "";
 		for (Employee z : employees) {
-			s+=z+"\n";
-			s+=z.infoWork();
+			s += z + "\n";
+			s += z.infoWork();
 			if (!z.infoWork().contentEquals(""))
-				s+="\n";
-			s+="\n";
+				s += "\n";
+			s += "\n";
 		}
 		return s;
 	}
@@ -366,13 +366,39 @@ public class DatabaseOfEmployees {
 		}
 		return -1;
 	}
-	
+
 	public int getCosts() {
 		int costs = 0;
 		for (Employee z : employees) {
 			costs += z.getWage();
 		}
 		return costs;
+	}
+
+	/**
+	 * Vrátí poèet hodin jednotlivých prací.
+	 * 
+	 * @return pole, index[0] administrativa, index[1] dokumentace, index[2] vývoj
+	 */
+	public int[] getWorkTypeHours() {
+		int[] howMuchWorkDoWeHave = { 0, 0, 0 };
+		int[] howMuchWorkDoIHave = { 0, 0, 0 };
+		for (Employee e : employees) {
+			howMuchWorkDoIHave = e.getWorkTypeHours();
+			if (howMuchWorkDoIHave[0] == -1) {
+				howMuchWorkDoIHave[0] = 0;
+			}
+			if (howMuchWorkDoIHave[1] == -1) {
+				howMuchWorkDoIHave[1] = 0;
+			}
+			if (howMuchWorkDoIHave[2] == -1) {
+				howMuchWorkDoIHave[2] = 0;
+			}
+			howMuchWorkDoWeHave[0] += howMuchWorkDoIHave[0];
+			howMuchWorkDoWeHave[1] += howMuchWorkDoIHave[1];
+			howMuchWorkDoWeHave[2] += howMuchWorkDoIHave[2];
+		}
+		return howMuchWorkDoWeHave;
 	}
 
 	public ArrayList<Employee> getArrayList() {

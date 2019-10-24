@@ -528,7 +528,7 @@ public class JFrameMainWindow extends JFrame {
 
 		private void btnConfirmChangesWorkingHours() {
 			
-			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisNumber(txtHoursNumber.getText()))) {
+			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisInteger(txtHoursNumber.getText()))) {
 				return;
 			}
 			
@@ -553,7 +553,7 @@ public class JFrameMainWindow extends JFrame {
 			}
 		}
 		
-		private boolean isThisNumber(String number) {
+		private boolean isThisInteger(String number) {
 			try {
 				int i = Integer.parseInt(number);
 				return true;

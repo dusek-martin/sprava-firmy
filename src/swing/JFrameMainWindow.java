@@ -528,12 +528,12 @@ public class JFrameMainWindow extends JFrame {
 
 		private void btnConfirmChangesWorkingHours() {
 			
+			txtHoursNumber.setText(txtHoursNumber.getText().trim());
 			if ((txtHoursNumber.getText() == null && txtHoursNumber.getText().isEmpty()) || (!isThisInteger(txtHoursNumber.getText()))) {
 				return;
 			}
 			
-			WorkType workType = (WorkType)comboBoxWorkType.getSelectedItem();
-			txtHoursNumber.setText(txtHoursNumber.getText().trim());
+//			WorkType workType = (WorkType)comboBoxWorkType.getSelectedItem();
 			int hoursNumber = Integer.parseInt(txtHoursNumber.getText());
 			
 			if (comboBoxWorkAddDel.getSelectedIndex() == 1) {
@@ -549,7 +549,10 @@ public class JFrameMainWindow extends JFrame {
 				refresh();
 				changePanelCentralMain(panelEmployeesList);
 			} else {
-				return;
+				// other changes
+				lblTitle.setText("NEPOVEDLO SE PØIDAT/ODEBRAT PRÁCI");
+				refresh();
+				changePanelCentralMain(panelEmployeesList);
 			}
 		}
 		

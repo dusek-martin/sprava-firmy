@@ -289,16 +289,16 @@ public class Work {
 	public String infoWork() {
 		String s = "";
 		if (howManyAdministrationHours != -1) {
-			s += String.format("\n%d hodin administrativy", howManyAdministrationHours);
+			s += String.format("\n%d hours of administration", howManyAdministrationHours);
 		}
 		if (howManyDocumentationHours != -1) {
-			s += String.format("\n%d hodin dokumentace", howManyDocumentationHours);
+			s += String.format("\n%d hours of documentation", howManyDocumentationHours);
 		}
 		if (howManyDevelopmentHours != -1) {
-			s += String.format("\n%d hodin vývoje", howManyDevelopmentHours);
+			s += String.format("\n%d hours of development", howManyDevelopmentHours);
 		}
 		if (!s.contentEquals(""))
-			s = "Mám na práci:" + s;
+			s = "My working hours:" + s;
 		return s;
 	}
 	

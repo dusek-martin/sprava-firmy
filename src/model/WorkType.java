@@ -2,8 +2,8 @@ package model;
 
 public enum WorkType {
 
-	administration(1, "administrativní práce"), documentation(2, "technická dokumentace"),
-	development(3, "vývojové práce");
+	administration(1, "administration"), documentation(2, "documentation"),
+	development(3, "development");
 
 	// definice
 

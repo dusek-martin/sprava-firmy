@@ -86,7 +86,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private JButton btnSortBySurname;
 	private JButton btnSortByIdClean;
 	private JButton btnSortBySurnameClean;
-	private JLabel lblZmnitMaximlnPoet;
+	private JLabel lblChangeMaxWorkingHoursAll;
 	private JTextField txtMaxWorkingHoursAll;
 	private JButton btnConfirmChangesMaxWorkingHoursAll;
 
@@ -116,7 +116,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		try {
 			datZam = new DatabaseOfEmployees("databaze");
 		} catch (Exception e) {
-			setTitle("Nepovedla se naèíst databáze.");
+			setTitle("Couldn't load the database.");
 		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +154,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		gbc_btnList.gridy = 2;
 		panelLeftMain.add(btnList, gbc_btnList);
 
-		btnAdd = new JButton("ADD");
+		btnAdd = new JButton("ADD EMP");
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
 		gbc_btnAdd.fill = GridBagConstraints.BOTH;
 		gbc_btnAdd.insets = new Insets(5, 10, 5, 10);
@@ -162,7 +162,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		gbc_btnAdd.gridy = 3;
 		panelLeftMain.add(btnAdd, gbc_btnAdd);
 
-		btnDelIll = new JButton("DEL/ILL");
+		btnDelIll = new JButton("EDIT EMP");
 		GridBagConstraints gbc_btnDel = new GridBagConstraints();
 		gbc_btnDel.fill = GridBagConstraints.BOTH;
 		gbc_btnDel.insets = new Insets(5, 10, 5, 10);
@@ -170,7 +170,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		gbc_btnDel.gridy = 4;
 		panelLeftMain.add(btnDelIll, gbc_btnDel);
 
-		btnWork = new JButton("WORK");
+		btnWork = new JButton("WORK CHNG");
 		GridBagConstraints gbc_btnWork = new GridBagConstraints();
 		gbc_btnWork.fill = GridBagConstraints.BOTH;
 		gbc_btnWork.insets = new Insets(5, 10, 5, 10);
@@ -213,15 +213,15 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 
 		scrollPane = new JScrollPane();
 
-		lblWageIntensity = new JLabel("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
-		lblNumberOfEmployees = new JLabel("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+		lblWageIntensity = new JLabel("Monthly salary payment: " + datZam.getCosts() + " Kè");
+		lblNumberOfEmployees = new JLabel("Number of employees: " + datZam.getArrayList().size());
 		lblDirectorsName = new JLabel("");
 		if (datZam.isDirectorAlready()) {
 			lblDirectorsName.setText(
-					String.format("Øeditel: %s %s, ID %d", datZam.findEmployee(datZam.getDirectorsId()).getName(),
+					String.format("Director: %s %s, ID %d", datZam.findEmployee(datZam.getDirectorsId()).getName(),
 							datZam.findEmployee(datZam.getDirectorsId()).getSurname(), datZam.getDirectorsId()));
 		} else {
-			lblDirectorsName.setText("Firma nemá øeditele!");
+			lblDirectorsName.setText("Company has not any director!");
 		}
 
 		/*
@@ -311,7 +311,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnGrp = new ButtonGroup();
 		rdbtnAddDirector = new JRadioButton("Director");
 		rdbtnAddDeveloper = new JRadioButton("Developer");
-		rdbtnAddTechnicalWorker = new JRadioButton("Technical worker");
+		rdbtnAddTechnicalWorker = new JRadioButton("Designer");
 		rdbtnAddAssistant = new JRadioButton("Assistant");
 		btnGrp.add(rdbtnAddDirector);
 		btnGrp.add(rdbtnAddDeveloper);
@@ -362,7 +362,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		JScrollPane scrollPaneListDel = new JScrollPane();
 
 		comboBoxEmployeeDel = new JComboBox();
-		comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+		comboBoxEmployeeDel.addItem("Choose an employee:");
 		for (Employee e : datZam.getArrayList()) {
 			comboBoxEmployeeDel.addItem(e.toString());
 		}
@@ -375,14 +375,14 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnDeleteEmployee.addActionListener(this);
 
 		txtEmployeeChangeEvaluation = new JTextField();
-		txtEmployeeChangeEvaluation.setText("hodinová mzda");
+		txtEmployeeChangeEvaluation.setText("hour evaluation");
 		txtEmployeeChangeEvaluation.setColumns(10);
 		txtEmployeeChangeEvaluation.addFocusListener(this);
 
 		btnEmployeeChangeEvaluation = new JButton("CHANGE EMPLOYEE'S EVALUATION");
 
 		txtEmployeeMaxWorkingHours = new JTextField();
-		txtEmployeeMaxWorkingHours.setText("maximální poèet hodin");
+		txtEmployeeMaxWorkingHours.setText("max number of working hours");
 		txtEmployeeMaxWorkingHours.setColumns(10);
 		txtEmployeeMaxWorkingHours.addFocusListener(this);
 
@@ -391,54 +391,46 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnEmployeeChangeMaxWorkingHours.addActionListener(this);
 
 		GroupLayout gl_panelDel = new GroupLayout(panelDel);
-		gl_panelDel.setHorizontalGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
-						.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panelDel.createSequentialGroup()
-										.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 150,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 250,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
-										.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220,
-												GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panelDel.createSequentialGroup()
-										.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 150,
-												GroupLayout.PREFERRED_SIZE)
-										.addGap(10)
-										.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 250,
-												GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
-										.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 220,
-												GroupLayout.PREFERRED_SIZE))
-								.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 792, Short.MAX_VALUE)
-								.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 792,
-										Short.MAX_VALUE))
-						.addGap(40)));
-		gl_panelDel.setVerticalGroup(gl_panelDel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
-						.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE).addGap(20)
-						.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addGap(20)
-						.addGroup(
-								gl_panelDel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 25,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 23,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 25,
-												GroupLayout.PREFERRED_SIZE))
-						.addGap(10)
-						.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 23,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 24,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(20)));
+		gl_panelDel.setHorizontalGroup(
+			gl_panelDel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelDel.createSequentialGroup()
+					.addGap(40)
+					.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelDel.createSequentialGroup()
+							.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+							.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelDel.createSequentialGroup()
+							.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+							.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
+						.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 777, Short.MAX_VALUE)
+						.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE))
+					.addGap(40))
+		);
+		gl_panelDel.setVerticalGroup(
+			gl_panelDel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDel.createSequentialGroup()
+					.addGap(40)
+					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
+					.addGap(20)
+					.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(20)
+					.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+					.addGap(10)
+					.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+					.addGap(20))
+		);
 
 		txtrListOfEmployeesDel = new JTextArea();
 		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
@@ -450,19 +442,19 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		panelCenterMain.add(panelWork, "name_13075724238800");
 
 		comboBoxWorkAddDel = new JComboBox();
-		comboBoxWorkAddDel.addItem("Pøidat nebo odebrat?");
-		comboBoxWorkAddDel.addItem("Pøidat:");
-		comboBoxWorkAddDel.addItem("Odebrat:");
+		comboBoxWorkAddDel.addItem("Add or remove?");
+		comboBoxWorkAddDel.addItem("Add:");
+		comboBoxWorkAddDel.addItem("Remove:");
 
 		txtHoursNumber = new JTextField();
-		txtHoursNumber.setText("poèet hodin");
+		txtHoursNumber.setText("number of hours");
 		txtHoursNumber.setColumns(10);
 		txtHoursNumber.addFocusListener(this);
 
 		comboBoxWorkType = new JComboBox();
-		comboBoxWorkType.setToolTipText("vyber typ práce");
+		comboBoxWorkType.setToolTipText("choose type of work");
 //		comboBoxWorkType.setModel(new DefaultComboBoxModel(WorkType.values()));
-		comboBoxWorkType.addItem("Vyber typ práce ze seznamu níže:");
+		comboBoxWorkType.addItem("Choose type of work:");
 		int workTypeNumber = 1;
 		while (WorkType.getWorkType(workTypeNumber) != null) {
 			comboBoxWorkType.addItem(WorkType.getWorkType(workTypeNumber));
@@ -473,15 +465,15 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnConfirmChangesWorkingHours.addActionListener(this);
 
 		lblWorkHowMuchAdministration = new JLabel(
-				String.format("Celkem máme: %d hodin administrativy", datZam.getWorkTypeHours()[0]));
+				String.format("Total %d hours of administration", datZam.getWorkTypeHours()[0]));
 		lblWorkHowMuchDocumentation = new JLabel(
-				String.format("Celkem máme: %d hodin dokumentace", datZam.getWorkTypeHours()[1]));
+				String.format("Total %d hours of documentation", datZam.getWorkTypeHours()[1]));
 		lblWorkHowMuchDevelopment = new JLabel(
-				String.format("Celkem máme: %d hodin vývoje", datZam.getWorkTypeHours()[2]));
-		lblHowMuchWork = new JLabel(String.format("DOHROMADY: %d hodin práce",
+				String.format("Total %d hours of development", datZam.getWorkTypeHours()[2]));
+		lblHowMuchWork = new JLabel(String.format("TOTAL: %d hours of work",
 				(datZam.getWorkTypeHours()[0] + datZam.getWorkTypeHours()[1] + datZam.getWorkTypeHours()[2])));
 
-		lblZmnitMaximlnPoet = new JLabel("Zm\u011Bnit maxim\u00E1ln\u00ED po\u010Det hodin za m\u011Bs\u00EDc:");
+		lblChangeMaxWorkingHoursAll = new JLabel("Change maximum working hours per moth for all:");
 
 		txtMaxWorkingHoursAll = new JTextField();
 		txtMaxWorkingHoursAll.setText("160");
@@ -508,7 +500,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 									.addGap(40)
 									.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelWork.createSequentialGroup()
-									.addComponent(lblZmnitMaximlnPoet, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 									.addGap(5)
 									.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
 							.addGap(35)
@@ -539,7 +531,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 					.addComponent(lblHowMuchWork)
 					.addGap(20)
 					.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblZmnitMaximlnPoet, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnConfirmChangesMaxWorkingHoursAll))
 					.addContainerGap(231, Short.MAX_VALUE))
@@ -606,15 +598,15 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	public void focusLost(FocusEvent e) {
 		if (e.getSource() == txtEmployeeChangeEvaluation) {
 			if ((((String) txtEmployeeChangeEvaluation.getText()).trim().isEmpty())) {
-				txtEmployeeChangeEvaluation.setText("hodinová mzda");
+				txtEmployeeChangeEvaluation.setText("hour evaluation");
 			}
 		} else if (e.getSource() == txtEmployeeMaxWorkingHours) {
 			if ((((String) txtEmployeeMaxWorkingHours.getText()).trim().isEmpty())) {
-				txtEmployeeMaxWorkingHours.setText("maximální poèet hodin");
+				txtEmployeeMaxWorkingHours.setText("max number of working hours");
 			}
 		} else if (e.getSource() == txtHoursNumber) {
 			if ((((String) txtHoursNumber.getText()).trim().isEmpty())) {
-				txtHoursNumber.setText("poèet hodin");
+				txtHoursNumber.setText("number of hours");
 			}
 		} else if (e.getSource() == txtMaxWorkingHoursAll) {
 			if ((((String) txtMaxWorkingHoursAll.getText()).trim().isEmpty())) {
@@ -629,35 +621,35 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
 		textAddName.setText("");
 		textAddSurname.setText("");
-		lblNumberOfEmployees.setText("Poèet zamìstnancù celkem: " + datZam.getArrayList().size());
+		lblNumberOfEmployees.setText("Number of employees: " + datZam.getArrayList().size());
 		if (datZam.isDirectorAlready()) {
 			lblDirectorsName.setText(
-					String.format("Øeditel: %s %s, ID %d", datZam.findEmployee(datZam.getDirectorsId()).getName(),
+					String.format("Director: %s %s, ID %d", datZam.findEmployee(datZam.getDirectorsId()).getName(),
 							datZam.findEmployee(datZam.getDirectorsId()).getSurname(), datZam.getDirectorsId()));
 		} else {
-			lblDirectorsName.setText("Firma nemá øeditele!");
+			lblDirectorsName.setText("Company has not any director!");
 		}
-		lblWageIntensity.setText("Mìsíèní mzdová nároènost: " + datZam.getCosts() + " Kè");
+		lblWageIntensity.setText("Monthly salary payment: " + datZam.getCosts() + " Kè");
 
-		lblHowMuchWork.setText(String.format("DOHROMADY: %d hodin práce",
+		lblHowMuchWork.setText(String.format("TOTAL: %d hours of work",
 				(datZam.getWorkTypeHours()[0] + datZam.getWorkTypeHours()[1] + datZam.getWorkTypeHours()[2])));
 		lblWorkHowMuchAdministration
-				.setText(String.format("Celkem máme: %d hodin administrativy", datZam.getWorkTypeHours()[0]));
+				.setText(String.format("Total: %d hours of administration", datZam.getWorkTypeHours()[0]));
 		lblWorkHowMuchDocumentation
-				.setText(String.format("Celkem máme: %d hodin dokumentace", datZam.getWorkTypeHours()[1]));
-		lblWorkHowMuchDevelopment.setText(String.format("Celkem máme: %d hodin vývoje", datZam.getWorkTypeHours()[2]));
+				.setText(String.format("Total: %d hours of documentation", datZam.getWorkTypeHours()[1]));
+		lblWorkHowMuchDevelopment.setText(String.format("Total: %d hours of development", datZam.getWorkTypeHours()[2]));
 
 		comboBoxEmployeeDel.setSelectedIndex(0);
 		comboBoxWorkAddDel.setSelectedIndex(0);
 		comboBoxWorkType.setSelectedIndex(0);
-		txtHoursNumber.setText("poèet hodin");
+		txtHoursNumber.setText("number of hours");
 		comboBoxEmployeeDel.removeAllItems();
-		comboBoxEmployeeDel.addItem("Vyber zamìstnance ze seznamu níže:");
+		comboBoxEmployeeDel.addItem("Choose an employee:");
 		for (Employee employee : datZam.getArrayList()) {
 			comboBoxEmployeeDel.addItem(employee.toString());
 		}
-		txtEmployeeChangeEvaluation.setText("hodinová mzda");
-		txtEmployeeMaxWorkingHours.setText("maximální poèet hodin");
+		txtEmployeeChangeEvaluation.setText("hour evaluation");
+		txtEmployeeMaxWorkingHours.setText("max number of working hours");
 		txtMaxWorkingHoursAll.setText("160");
 	}
 

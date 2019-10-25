@@ -21,10 +21,10 @@ public class Employee extends Work {
 	public String toString() {
 		String health;
 		if (isHealthy())
-			health = "zdravý";
+			health = "healthy";
 		else
-			health = "nemocný";
-		return "ID: " + id + ", " + name + " " + surname + ", " + getPositionTitle() + ", " + health + ", mzda: " + super.getWage() + ", hodnocení: " + super.getEvaluation() + " Kè/h, maximální poèet pracovních hodin: " + super.getMaxWorkingHours();
+			health = "ill";
+		return "ID: " + id + ", " + name + " " + surname + ", " + getPositionTitle() + ", " + health + ", wage: " + super.getWage() + ", evaluation: " + super.getEvaluation() + " Kè/h, max number of working hours: " + super.getMaxWorkingHours();
 	}
 
 	public String toCSV() {

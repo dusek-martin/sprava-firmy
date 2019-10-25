@@ -78,16 +78,16 @@ public class DatabaseOfEmployees {
 
 		Position position;
 		switch (values[4]) {
-		case "asistent":
+		case "assistant":
 			position = Position.assistant;
 			break;
-		case "technický pracovník":
-			position = Position.technicalWorker;
+		case "designer":
+			position = Position.designer;
 			break;
-		case "vývojový pracovník":
+		case "developer":
 			position = Position.developer;
 			break;
-		case "øeditel":
+		case "director":
 			position = Position.director;
 			break;
 		default:
@@ -97,9 +97,10 @@ public class DatabaseOfEmployees {
 		this.countId = Integer.parseInt(values[0]);
 		Employee employee = makeEmployee(values[1], values[2], position);
 		employee.setEvaluation(Integer.parseInt(values[5]));
-		employee.addWorkOfType(WorkType.administration, Integer.parseInt(values[6]));
-		employee.addWorkOfType(WorkType.documentation, Integer.parseInt(values[7]));
-		employee.addWorkOfType(WorkType.development, Integer.parseInt(values[8]));
+		employee.setMaxWorkingHours(Integer.parseInt(values[6]));
+		employee.addWorkOfType(WorkType.administration, Integer.parseInt(values[7]));
+		employee.addWorkOfType(WorkType.documentation, Integer.parseInt(values[8]));
+		employee.addWorkOfType(WorkType.development, Integer.parseInt(values[9]));
 
 		if (values[3].contentEquals("false")) {
 			employee.setIll();
@@ -115,9 +116,9 @@ public class DatabaseOfEmployees {
 		case developer:
 			Developer developer = new Developer(countId, name, surname);
 			return developer;
-		case technicalWorker:
-			TechnicalWorker technicalWorker = new TechnicalWorker(countId, name, surname);
-			return technicalWorker;
+		case designer:
+			Designer designer = new Designer(countId, name, surname);
+			return designer;
 		case assistant:
 			Assistant assistant = new Assistant(countId, name, surname);
 			return assistant;
@@ -291,8 +292,31 @@ public class DatabaseOfEmployees {
 		return s;
 	}
 
+	public String listOfEmployeesBySurnameToString() {
+		Collections.sort(employees, Employee.surnameComparator);
+		String s = "";
+		for (Employee z : employees) {
+			s += z + "\n";
+		}
+		return s;
+	}
+	
 	public String listOfEmployeesByIdWithWorkToString() {
 		Collections.sort(employees, Employee.idComparator);
+		String s = "";
+		for (Employee z : employees) {
+			s += z + "\n";
+			s += z.infoWork();
+			if (!z.infoWork().contentEquals(""))
+				s += "\n";
+			s += "\n";
+		}
+		return s;
+	}
+
+
+	public String listOfEmployeesBySurnameWithWorkToString() {
+		Collections.sort(employees, Employee.surnameComparator);
 		String s = "";
 		for (Employee z : employees) {
 			s += z + "\n";

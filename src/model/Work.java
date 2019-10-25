@@ -29,7 +29,7 @@ public class Work {
 			howManyDocumentationHours = 0;
 			howManyDevelopmentHours = 0;
 			break;
-		case technicalWorker:
+		case designer:
 			howManyAdministrationHours = 0;
 			howManyDocumentationHours = 0;
 			break;
@@ -191,8 +191,14 @@ public class Work {
 		return maxWorkingHours;
 	}
 
-	public void setMaxWorkingHours(int maxWorkingHours) {
-		this.maxWorkingHours = maxWorkingHours;
+	public boolean setMaxWorkingHours(int maxWorkingHours) {
+		if (maxWorkingHours >= getHowMuchWorkDoIHave()) {
+			freeWorkingHours += maxWorkingHours - this.maxWorkingHours;
+			this.maxWorkingHours = maxWorkingHours;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public int getEvaluation() {
@@ -250,7 +256,7 @@ public class Work {
 			howManyDocumentationHours = -1;
 			howManyDevelopmentHours = -1;
 			break;
-		case technicalWorker:
+		case designer:
 			howManyAdministrationHours = 0;
 			howManyDocumentationHours = 0;
 			howManyDevelopmentHours = -1;
@@ -307,7 +313,7 @@ public class Work {
 	}
 
 	public String workToCSV() {
-		return position + ";" + getEvaluation() + ";" + String.valueOf(howManyAdministrationHours) + ";"
+		return position + ";" + getEvaluation() + ";" + getMaxWorkingHours() + ";" + String.valueOf(howManyAdministrationHours) + ";"
 				+ String.valueOf(howManyDocumentationHours) + ";" + String.valueOf(howManyDevelopmentHours);
 	}
 

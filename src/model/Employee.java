@@ -24,7 +24,7 @@ public class Employee extends Work {
 			health = "zdravý";
 		else
 			health = "nemocný";
-		return "ID: " + id + ", " + name + " " + surname + ", " + getPositionTitle() + ", " + health;
+		return "ID: " + id + ", " + name + " " + surname + ", " + getPositionTitle() + ", " + health + ", mzda: " + super.getWage() + ", hodnocení: " + super.getEvaluation() + " Kè/h, maximální poèet pracovních hodin: " + super.getMaxWorkingHours();
 	}
 
 	public String toCSV() {

@@ -1,10 +1,10 @@
 package model;
 
 public enum Position {
-	assistant(1, "asistent", 150),
-	technicalWorker(2, "technický pracovník", 200),
-	developer(3, "vývojový pracovník", 250),
-	director(4, "øeditel", 350); 
+	assistant(1, "assistant", 150),
+	designer(2, "designer", 200),
+	developer(3, "developer", 250),
+	director(4, "director", 350); 
 	
 	// definice
 	private final String title;
@@ -30,7 +30,7 @@ public enum Position {
 		case 1:
 			return Position.assistant;
 		case 2:
-			return Position.technicalWorker;
+			return Position.designer;
 		case 3:
 			return Position.developer;
 		case 4:

@@ -16,12 +16,14 @@ import java.awt.event.FocusListener;
 
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -44,6 +46,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private JPanel panelEmployeesList;
 	private JPanel panelAdd;
 	private JPanel panelDel;
+	private JPanel panelWork;
 	private JLabel lblTitle;
 	private JLabel lblNumberOfEmployees;
 	private JLabel lblDirectorsName;
@@ -56,7 +59,6 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private JLabel lblWorkHowMuchDevelopment;
 	private JScrollPane scrollPane;
 	private JTextArea txtrListOfEmployees;
-	private JTextArea txtrListOfEmployeesDel;
 	private JTextField textAddName;
 	private JTextField textAddSurname;
 	private JTextField txtHoursNumber;
@@ -66,30 +68,30 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private JButton btnClose;
 	private JButton btnAddEmployeeToDatabase;
 	private JButton btnConfirmChangesWorkingHours;
-	private ButtonGroup btnGrp;
-	private JRadioButton rdbtnAddDirector;
-	private JRadioButton rdbtnAddDeveloper;
-	private JRadioButton rdbtnAddTechnicalWorker;
-	private JRadioButton rdbtnAddAssistant;
 	private JButton btnChangeEmployeeHealth;
 	private JButton btnDeleteEmployee;
-	private JComboBox comboBoxEmployeeDel;
-	private JComboBox comboBoxWorkAddDel;
-	private JComboBox comboBoxWorkType;
 	private JButton btnWork;
-	private JPanel panelWork;
-	private JTextField txtEmployeeChangeEvaluation;
 	private JButton btnEmployeeChangeEvaluation;
-	private JTextField txtEmployeeMaxWorkingHours;
 	private JButton btnEmployeeChangeMaxWorkingHours;
 	private JButton btnSortById;
 	private JButton btnSortBySurname;
 	private JButton btnSortByIdClean;
 	private JButton btnSortBySurnameClean;
+	private JButton btnConfirmChangesMaxWorkingHoursAll;
+	private ButtonGroup btnGrp;
+	private JRadioButton rdbtnAddDirector;
+	private JRadioButton rdbtnAddDeveloper;
+	private JRadioButton rdbtnAddTechnicalWorker;
+	private JRadioButton rdbtnAddAssistant;
+	private JComboBox comboBoxWorkAddDel;
+	private JComboBox comboBoxWorkType;
+	private JTextField txtEmployeeChangeEvaluation;
+	private JTextField txtEmployeeMaxWorkingHours;
 	private JLabel lblChangeMaxWorkingHoursAll;
 	private JTextField txtMaxWorkingHoursAll;
-	private JButton btnConfirmChangesMaxWorkingHoursAll;
-
+	private DefaultListModel modelSelectEmployee;
+	private JList listSelectEmployee;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -361,12 +363,6 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 
 		JScrollPane scrollPaneListDel = new JScrollPane();
 
-		comboBoxEmployeeDel = new JComboBox();
-		comboBoxEmployeeDel.addItem("Choose an employee:");
-		for (Employee e : datZam.getArrayList()) {
-			comboBoxEmployeeDel.addItem(e.toString());
-		}
-
 		btnChangeEmployeeHealth = new JButton("SET EMPLOYEE ILL/HEALTHY");
 
 		btnDeleteEmployee = new JButton("DELETE EMPLOYEE");
@@ -400,25 +396,22 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 							.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
 							.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelDel.createSequentialGroup()
 							.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
 							.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
 							.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
-						.addComponent(comboBoxEmployeeDel, Alignment.LEADING, 0, 777, Short.MAX_VALUE)
-						.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE))
+						.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE))
 					.addGap(40))
 		);
 		gl_panelDel.setVerticalGroup(
 			gl_panelDel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelDel.createSequentialGroup()
 					.addGap(40)
-					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE)
-					.addGap(20)
-					.addComponent(comboBoxEmployeeDel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
 					.addGap(20)
 					.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
@@ -431,11 +424,16 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 						.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 					.addGap(20))
 		);
-
-		txtrListOfEmployeesDel = new JTextArea();
-		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
-		txtrListOfEmployeesDel.setEditable(false);
-		scrollPaneListDel.setViewportView(txtrListOfEmployeesDel);
+		
+		modelSelectEmployee = new DefaultListModel();
+		listSelectEmployee = new JList(modelSelectEmployee);
+		scrollPaneListDel.setViewportView(listSelectEmployee);
+		int index = 0;
+		for (Employee e: datZam.getArrayList()) {
+			modelSelectEmployee.add(index, e);
+			index++;
+		}
+		
 		panelDel.setLayout(gl_panelDel);
 
 		panelWork = new JPanel();
@@ -500,7 +498,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 									.addGap(40)
 									.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelWork.createSequentialGroup()
-									.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
 									.addGap(5)
 									.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
 							.addGap(35)
@@ -508,7 +506,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 								.addComponent(btnConfirmChangesMaxWorkingHoursAll)
 								.addGroup(gl_panelWork.createSequentialGroup()
 									.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
 									.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))))
 					.addContainerGap())
 		);
@@ -534,7 +532,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 						.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnConfirmChangesMaxWorkingHoursAll))
-					.addContainerGap(231, Short.MAX_VALUE))
+					.addContainerGap(236, Short.MAX_VALUE))
 		);
 		panelWork.setLayout(gl_panelWork);
 	}
@@ -618,7 +616,6 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private void refresh() {
 		datZam.saveToCSV();
 		txtrListOfEmployees.setText(datZam.listOfEmployeesByIdWithWorkToString());
-		txtrListOfEmployeesDel.setText(datZam.listOfEmployeesByIdWithWorkToString());
 		textAddName.setText("");
 		textAddSurname.setText("");
 		lblNumberOfEmployees.setText("Number of employees: " + datZam.getArrayList().size());
@@ -638,19 +635,20 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		lblWorkHowMuchDocumentation
 				.setText(String.format("Total: %d hours of documentation", datZam.getWorkTypeHours()[1]));
 		lblWorkHowMuchDevelopment.setText(String.format("Total: %d hours of development", datZam.getWorkTypeHours()[2]));
-
-		comboBoxEmployeeDel.setSelectedIndex(0);
 		comboBoxWorkAddDel.setSelectedIndex(0);
 		comboBoxWorkType.setSelectedIndex(0);
 		txtHoursNumber.setText("number of hours");
-		comboBoxEmployeeDel.removeAllItems();
-		comboBoxEmployeeDel.addItem("Choose an employee:");
-		for (Employee employee : datZam.getArrayList()) {
-			comboBoxEmployeeDel.addItem(employee.toString());
-		}
+
 		txtEmployeeChangeEvaluation.setText("hour evaluation");
 		txtEmployeeMaxWorkingHours.setText("max number of working hours");
 		txtMaxWorkingHoursAll.setText("160");
+		
+		int index = 0;
+		modelSelectEmployee.clear();
+		for (Employee e: datZam.getArrayList()) {
+			modelSelectEmployee.add(index, e);
+			index++;
+		}
 	}
 
 	private void changePanelCentralMain(JPanel jPanel) {
@@ -692,7 +690,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 
 	private void onChangeEmployeesHealth() {
 		for (Employee employee : datZam.getArrayList()) {
-			if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+			if (listSelectEmployee.getSelectedValue() == employee) {
 
 				if (employee.isHealthy()) {
 					datZam.setEmployeeIll(employee.getId());
@@ -711,7 +709,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private void onDeleteEmployee() {
 		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
-			if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+			if (listSelectEmployee.getSelectedValue() == employee) {
 				datZam.deleteEmployee(employee.getId());
 				refresh();
 				// other changes
@@ -732,7 +730,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		int newEvaluation = Integer.parseInt(txtEmployeeChangeEvaluation.getText());
 		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
-			if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+			if (listSelectEmployee.getSelectedValue() == employee) {
 				employee.setEvaluation(newEvaluation);
 				refresh();
 				// other changes
@@ -753,7 +751,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		int newMaxWorkingHours = Integer.parseInt(txtEmployeeMaxWorkingHours.getText());
 		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
-			if (((String) comboBoxEmployeeDel.getSelectedItem()).equals(employee.toString())) {
+			if (listSelectEmployee.getSelectedValue() == employee) {
 				if (employee.setMaxWorkingHours(newMaxWorkingHours)) {
 					refresh();
 					// other changes

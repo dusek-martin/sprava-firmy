@@ -18,7 +18,7 @@ public class DatabaseOfEmployees {
 	File fPath;
 	File fDatabase;
 
-	// konstruktor - UPRAVIT "throw exception by asi nemìl byt v catchi
+	// konstruktor 
 	public DatabaseOfEmployees(String databaseName) throws Exception {
 		employees = new ArrayList<>();
 

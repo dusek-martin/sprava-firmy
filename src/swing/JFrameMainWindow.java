@@ -89,9 +89,10 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	private JTextField txtEmployeeMaxWorkingHours;
 	private JLabel lblChangeMaxWorkingHoursAll;
 	private JTextField txtMaxWorkingHoursAll;
+	private JScrollPane scrollPaneListDel;
 	private DefaultListModel modelSelectEmployee;
 	private JList listSelectEmployee;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -113,7 +114,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	 */
 	public JFrameMainWindow() {
 
-		setTitle("Správa firmy");
+		setTitle("Company management");
 
 		try {
 			datZam = new DatabaseOfEmployees("databaze");
@@ -225,13 +226,6 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		} else {
 			lblDirectorsName.setText("Company has not any director!");
 		}
-
-		/*
-		 * lblDirectorsName = new JLabel("Øeditel: " +
-		 * datZam.findEmployee(datZam.getDirectorsId()).getName() + " " +
-		 * datZam.findEmployee(datZam.getDirectorsId()).getSurname() + ", ID " +
-		 * datZam.getDirectorsId() + " ");
-		 */
 
 		btnSortById = new JButton("BY ID");
 		btnSortBySurname = new JButton("BY SURNAME");
@@ -361,7 +355,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		panelDel.setBackground(SystemColor.menu);
 		panelCenterMain.add(panelDel, "name_103427308961800");
 
-		JScrollPane scrollPaneListDel = new JScrollPane();
+		scrollPaneListDel = new JScrollPane();
 
 		btnChangeEmployeeHealth = new JButton("SET EMPLOYEE ILL/HEALTHY");
 
@@ -387,53 +381,61 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnEmployeeChangeMaxWorkingHours.addActionListener(this);
 
 		GroupLayout gl_panelDel = new GroupLayout(panelDel);
-		gl_panelDel.setHorizontalGroup(
-			gl_panelDel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelDel.createSequentialGroup()
-					.addGap(40)
-					.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelDel.createSequentialGroup()
-							.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-							.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelDel.createSequentialGroup()
-							.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-							.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE))
-						.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE))
-					.addGap(40))
-		);
-		gl_panelDel.setVerticalGroup(
-			gl_panelDel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelDel.createSequentialGroup()
-					.addGap(40)
-					.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
-					.addGap(20)
-					.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(10)
-					.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-					.addGap(20))
-		);
-		
+		gl_panelDel.setHorizontalGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
+						.addGroup(gl_panelDel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_panelDel.createSequentialGroup()
+										.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 200,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 250,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+										.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 220,
+												GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelDel.createSequentialGroup()
+										.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 200,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(10)
+										.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 250,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+										.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 220,
+												GroupLayout.PREFERRED_SIZE))
+								.addComponent(scrollPaneListDel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 781,
+										Short.MAX_VALUE))
+						.addGap(40)));
+		gl_panelDel
+				.setVerticalGroup(gl_panelDel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelDel.createSequentialGroup().addGap(40)
+								.addComponent(scrollPaneListDel, GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+								.addGap(20)
+								.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnChangeEmployeeHealth, GroupLayout.PREFERRED_SIZE, 25,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 23,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnEmployeeChangeEvaluation, GroupLayout.PREFERRED_SIZE, 25,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(10)
+								.addGroup(gl_panelDel.createParallelGroup(Alignment.BASELINE)
+										.addComponent(btnDeleteEmployee, GroupLayout.PREFERRED_SIZE, 25,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtEmployeeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 23,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnEmployeeChangeMaxWorkingHours, GroupLayout.PREFERRED_SIZE, 24,
+												GroupLayout.PREFERRED_SIZE))
+								.addGap(20)));
+
 		modelSelectEmployee = new DefaultListModel();
 		listSelectEmployee = new JList(modelSelectEmployee);
 		scrollPaneListDel.setViewportView(listSelectEmployee);
 		int index = 0;
-		for (Employee e: datZam.getArrayList()) {
+		for (Employee e : datZam.getArrayList()) {
 			modelSelectEmployee.add(index, e);
 			index++;
 		}
-		
+
 		panelDel.setLayout(gl_panelDel);
 
 		panelWork = new JPanel();
@@ -482,58 +484,60 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		btnConfirmChangesMaxWorkingHoursAll.addActionListener(this);
 
 		GroupLayout gl_panelWork = new GroupLayout(panelWork);
-		gl_panelWork.setHorizontalGroup(
-			gl_panelWork.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWork.createSequentialGroup()
-					.addGap(40)
-					.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblHowMuchWork)
-						.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panelWork.createSequentialGroup()
-							.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING)
+		gl_panelWork.setHorizontalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
+				.createSequentialGroup().addGap(40)
+				.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addComponent(lblHowMuchWork)
+						.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 250,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 250,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 250,
+								GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panelWork.createSequentialGroup().addGroup(gl_panelWork
+								.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panelWork.createSequentialGroup()
-									.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-									.addGap(40)
-									.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+										.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 160,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(40).addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelWork.createSequentialGroup()
-									.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 300, GroupLayout.PREFERRED_SIZE)
-									.addGap(5)
-									.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)))
-							.addGap(35)
-							.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnConfirmChangesMaxWorkingHoursAll)
-								.addGroup(gl_panelWork.createSequentialGroup()
-									.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-									.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))))
-					.addContainerGap())
-		);
-		gl_panelWork.setVerticalGroup(
-			gl_panelWork.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelWork.createSequentialGroup()
-					.addGap(40)
-					.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 300,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(5).addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 100,
+												GroupLayout.PREFERRED_SIZE)))
+								.addGap(35)
+								.addGroup(gl_panelWork.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnConfirmChangesMaxWorkingHoursAll)
+										.addGroup(gl_panelWork.createSequentialGroup()
+												.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 220,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+												.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE,
+														150, GroupLayout.PREFERRED_SIZE)))))
+				.addContainerGap()));
+		gl_panelWork.setVerticalGroup(gl_panelWork.createParallelGroup(Alignment.LEADING).addGroup(gl_panelWork
+				.createSequentialGroup().addGap(40)
+				.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxWorkAddDel, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtHoursNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboBoxWorkType, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(20)
-					.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblHowMuchWork)
-					.addGap(20)
-					.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnConfirmChangesWorkingHours, GroupLayout.PREFERRED_SIZE, 25,
+								GroupLayout.PREFERRED_SIZE))
+				.addGap(20)
+				.addComponent(lblWorkHowMuchAdministration, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+				.addGap(5)
+				.addComponent(lblWorkHowMuchDocumentation, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+				.addGap(5)
+				.addComponent(lblWorkHowMuchDevelopment, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+				.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblHowMuchWork).addGap(20)
+				.addGroup(gl_panelWork.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblChangeMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, 15,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtMaxWorkingHoursAll, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnConfirmChangesMaxWorkingHoursAll))
-					.addContainerGap(236, Short.MAX_VALUE))
-		);
+				.addContainerGap(236, Short.MAX_VALUE)));
 		panelWork.setLayout(gl_panelWork);
 	}
 
@@ -634,7 +638,8 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 				.setText(String.format("Total: %d hours of administration", datZam.getWorkTypeHours()[0]));
 		lblWorkHowMuchDocumentation
 				.setText(String.format("Total: %d hours of documentation", datZam.getWorkTypeHours()[1]));
-		lblWorkHowMuchDevelopment.setText(String.format("Total: %d hours of development", datZam.getWorkTypeHours()[2]));
+		lblWorkHowMuchDevelopment
+				.setText(String.format("Total: %d hours of development", datZam.getWorkTypeHours()[2]));
 		comboBoxWorkAddDel.setSelectedIndex(0);
 		comboBoxWorkType.setSelectedIndex(0);
 		txtHoursNumber.setText("number of hours");
@@ -642,10 +647,9 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		txtEmployeeChangeEvaluation.setText("hour evaluation");
 		txtEmployeeMaxWorkingHours.setText("max number of working hours");
 		txtMaxWorkingHoursAll.setText("160");
-		
 		int index = 0;
 		modelSelectEmployee.clear();
-		for (Employee e: datZam.getArrayList()) {
+		for (Employee e : datZam.getArrayList()) {
 			modelSelectEmployee.add(index, e);
 			index++;
 		}
@@ -682,8 +686,8 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 			btnGrp.clearSelection();
 			datZam.addEmployee(name, surname, position);
 			refresh();
-			changePanelCentralMain(panelEmployeesList);
 			// other changes
+			changePanelCentralMain(panelEmployeesList);
 			lblTitle.setText("LIST OF EMPLOYEES");
 		}
 	}
@@ -707,14 +711,12 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 	}
 
 	private void onDeleteEmployee() {
-		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
 			if (listSelectEmployee.getSelectedValue() == employee) {
 				datZam.deleteEmployee(employee.getId());
 				refresh();
 				// other changes
 				lblTitle.setText("EMPLOYEE DELETED");
-				// break loop;
 				return;
 			}
 		}
@@ -728,14 +730,12 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 			return;
 		}
 		int newEvaluation = Integer.parseInt(txtEmployeeChangeEvaluation.getText());
-		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
 			if (listSelectEmployee.getSelectedValue() == employee) {
 				employee.setEvaluation(newEvaluation);
 				refresh();
 				// other changes
 				lblTitle.setText("EMPLOYEE'S EVALUATION CAHNGED");
-				// break loop;
 				return;
 			}
 		}
@@ -749,14 +749,12 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 			return;
 		}
 		int newMaxWorkingHours = Integer.parseInt(txtEmployeeMaxWorkingHours.getText());
-		// LOOP:
 		for (Employee employee : datZam.getArrayList()) {
 			if (listSelectEmployee.getSelectedValue() == employee) {
 				if (employee.setMaxWorkingHours(newMaxWorkingHours)) {
 					refresh();
 					// other changes
 					lblTitle.setText("EMPLOYEE'S MAX WORKING HOURS CAHNGED");
-					// break loop;
 					return;
 				} else {
 					lblTitle.setText("FAIL IN CHANGING EMPLOYEE'S MAX WORKING HOURS");
@@ -806,9 +804,9 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		boolean success = true;
 		for (Employee employee : datZam.getArrayList()) {
 			if (employee.setMaxWorkingHours(newMaxWorkingHoursAll)) {
-				} else {
-					success = false;
-				}
+			} else {
+				success = false;
+			}
 		}
 		if (success) {
 			lblTitle.setText("VŠEM ZAMÌSTNANCÙM SE POVEDLO ZMÌNIT MAXIMÁLNÍ PRACOVNÍ DOBU");
@@ -818,7 +816,7 @@ public class JFrameMainWindow extends JFrame implements ActionListener, FocusLis
 		refresh();
 		changePanelCentralMain(panelEmployeesList);
 	}
-	
+
 	private boolean isInteger(String number) {
 		try {
 			int i = Integer.parseInt(number);
